@@ -1,0 +1,47 @@
+{
+  "name": "@kubit-ui-web/kubit-eslint-config",
+  "version": "1.0.0",
+  "description": "Kubit ESLint configuration for TypeScript projects",
+  "author": {
+    "name": "Kubit",
+    "email": "kubit@opendigitalservices.com",
+    "url": "https://www.kubit-ui.com/",
+    "organization": "Kubit",
+    "organizationUrl": "https://www.kubit-ui.com/",
+    "role": "Developer",
+    "roleUrl": "https://www.kubit-ui.com/",
+    "social": {
+      "twitter": "https://twitter.com/kubit_ui",
+      "github": "https://github.com/kubit-ui/eslint-plugin-no-index-import"
+    }
+  },
+  "homepage": "https://www.kubit-ui.com/",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kubit-ui/eslint-plugin-no-index-import"
+  },
+  "bugs": {
+    "url": "https://github.com/kubit-ui/eslint-plugin-no-index-import/issues"
+  },
+  "license": "Apache-2.0",
+  "private": false,
+  "main": "index.js",
+  "files": [
+    "index.js",
+    "package.json",
+    "README.md",
+    "LICENSE.md"
+  ],
+  "sideEffects": false,
+  "keywords": [
+    "eslint",
+    "eslint-config",
+    "typescript"
+  ],
+  "peerDependencies": {
+    "eslint": "^7.0.0",
+    "eslint-plugin-react": "^7.0.0",
+    "@typescript-eslint/parser": "^4.0.0",
+    "@typescript-eslint/eslint-plugin": "^4.0.0"
+  }
+}
