@@ -14,6 +14,7 @@ module.exports = ({
   },
   globals: {
     JSX: true,
+    React: 'writable',
   },
   extends: [
     'eslint:recommended', // Use recommended ESLint rules
@@ -46,7 +47,8 @@ module.exports = ({
     'prettier', // Add Prettier plugin
     'unused-imports', // Add unused imports plugin
     'jest', // Add Jest plugin
-    '@kubit-ui-web/no-index-import', // Add custom plugin for no-index-import
+    '@kubit-ui-web/no-index-import', // Add custom plugin for no-index-import,
+    'no-relative-import-paths', // Add custom plugin for no-relative-import-paths
   ],
   rules: {
     // TypeScript rules
@@ -208,6 +210,15 @@ module.exports = ({
     'no-magic-numbers': 'error', // Disallow magic numbers
     'consistent-return': 'error', // Enforce consistent return statements
     'no-unneeded-ternary': 'error', // Disallow unnecessary ternary expressions
+    'no-relative-import-paths/no-relative-import-paths': [
+      'error',
+      {
+        allowSameFolder: true,
+        allowedDepth: 2,
+        rootDir: 'app/src',
+        prefix: '@',
+      },
+    ], // Disallow relative import paths
   },
   settings: {
     react: {
