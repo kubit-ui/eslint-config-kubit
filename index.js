@@ -66,6 +66,7 @@ module.exports = ({
     '@typescript-eslint/no-empty-function': 'error', // Disallow empty functions
     '@typescript-eslint/no-duplicate-enum-values': 'off', // Allow duplicate enum values,
     '@typescript-eslint/no-shadow': 'error', // Disallow variable declarations from shadowing variables declared in the outer scope
+    '@typescript-eslint/no-use-before-define': ['error', { functions: false }], // Disallow usage of variables before their declaration
 
     // React rules
     'react/react-in-jsx-scope': 'off', // React 17+ does not require React to be in scope
@@ -117,13 +118,10 @@ module.exports = ({
     'no-extra-semi': 'error', // Disallow unnecessary semicolons
     'no-func-assign': 'error', // Disallow reassigning function declarations
     'no-inner-declarations': 'error', // Disallow variable or function declarations in nested blocks
+    'no-use-before-define': 'off', // Turn off disallowing the use of variables before they are defined
     'no-undef': 'error', // Disallow the use of undeclared variables
     'no-unreachable': 'error', // Disallow unreachable code after return, throw, continue, and break statements
     'no-unused-vars': ['error', { args: 'none', ignoreRestSiblings: true }], // Disallow unused variables
-    'no-use-before-define': [
-      'error',
-      { functions: false, classes: true, variables: true },
-    ], // Disallow the use of variables before they are defined
     quotes: [
       'error',
       'single',

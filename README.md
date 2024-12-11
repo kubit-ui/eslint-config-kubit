@@ -22,15 +22,16 @@ This package requires the following peer dependencies:
 - `eslint-plugin-react`
 - `@typescript-eslint/parser`
 - `@typescript-eslint/eslint-plugin`
+- `eslint-plugin-no-relative-import-paths`
 
 ```bash
-npm install --save-dev eslint eslint-plugin-react @typescript-eslint/parser @typescript-eslint/eslint-plugin
+npm install --save-dev eslint eslint-plugin-react @typescript-eslint/parser @typescript-eslint/eslint-plugin eslint-plugin-no-relative-import-paths
 ```
 
 or
 
 ```bash
-yarn add --dev eslint eslint-plugin-react @typescript-eslint/parser @typescript-eslint/eslint-plugin
+yarn add --dev eslint eslint-plugin-react @typescript-eslint/parser @typescript-eslint/eslint-plugin eslint-plugin-no-relative-import-paths
 ```
 
 ## Usage
