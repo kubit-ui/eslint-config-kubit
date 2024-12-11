@@ -56,7 +56,7 @@ module.exports = eslintConfig({
 If need override some rules, you can pass an argument to the function:
 
 ```js
-const eslintConfig = require('@kubit-ui-web/kubit-eslint-config');
+const eslintConfig = require('eslint-config-kubit');
 const path = require('path');
 
 module.exports = eslintConfig({
@@ -76,3 +76,7 @@ module.exports = eslintConfig({
   ],
 });
 ```
+
+## License
+
+APA License 2.0 © [Kubit](https://kubit-ui.com)

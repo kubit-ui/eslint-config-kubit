@@ -1,6 +1,6 @@
 {
   "name": "eslint-config-kubit",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Kubit ESLint configuration for TypeScript projects",
   "author": {
     "name": "Kubit",
@@ -12,16 +12,16 @@
     "roleUrl": "https://www.kubit-ui.com/",
     "social": {
       "twitter": "https://twitter.com/kubit_ui",
-      "github": "https://github.com/kubit-ui/eslint-plugin-no-index-import"
+      "github": "https://github.com/kubit-ui/eslint-config-kubit"
     }
   },
   "homepage": "https://www.kubit-ui.com/",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/kubit-ui/eslint-plugin-no-index-import"
+    "url": "git+https://github.com/kubit-ui/eslint-config-kubit"
   },
   "bugs": {
-    "url": "https://github.com/kubit-ui/eslint-plugin-no-index-import/issues"
+    "url": "https://github.com/kubit-ui/eslint-config-kubit/issues"
   },
   "license": "Apache-2.0",
   "private": false,
