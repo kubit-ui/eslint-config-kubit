@@ -44,18 +44,35 @@ const path = require('path');
 module.exports = eslintConfig({
   noIndexImportConfig: {
     aliases: {
-      '@/types': './src/types/*',
       '@/components': './src/components/*',
       '@/hooks': './src/hooks/*',
       '@/utils': './src/utils/*',
-      '@/styles': './src/styles/*',
-      '@/constants': './src/constants/*',
-      '@/provider': './src/provider/*',
-      '@/tests': './src/tests/*',
-      '@/assets': './src/assets/*',
-      'fixtures/*': './src/__fixtures__/*',
     },
   },
   tsConfigPath: path.resolve(__dirname, './tsconfig.json'),
+});
+```
+
+If need override some rules, you can pass an argument to the function:
+
+```js
+const eslintConfig = require('@kubit-ui-web/kubit-eslint-config');
+const path = require('path');
+
+module.exports = eslintConfig({
+  noIndexImportConfig: {
+    aliases: {
+      '@/types': './src/types/*',
+    },
+  },
+  tsConfigPath: path.resolve(__dirname, './tsconfig.json'),
+  overrides: [
+    {
+      files: ['**/*.{js,jsx,ts,tsx}'],
+      rules: {
+        'no-magic-numbers': 'off',
+      },
+    },
+  ],
 });
 ```

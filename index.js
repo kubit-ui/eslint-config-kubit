@@ -2,6 +2,7 @@ module.exports = ({
   noIndexImportConfig = {},
   noRestrictedImportsConfig,
   tsConfigPath = '',
+  overrides = [],
 }) => ({
   env: {
     browser: true, // Enable browser global variables
@@ -229,4 +230,5 @@ module.exports = ({
       '@typescript-eslint/parser': ['.ts', '.tsx'], // Use TypeScript parser for these extensions
     },
   },
+  overrides: [...overrides],
 });
