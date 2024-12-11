@@ -11,7 +11,9 @@ module.exports = ({
     jest: true, // Enable Jest global variables for testing
     commonjs: true, // Enable CommonJS global variables and CommonJS scoping
     es6: true, // Enable all ECMAScript 6 features except for modules,
-    JSX: true, // Enable JSX global variables
+  },
+  globals: {
+    JSX: true,
   },
   extends: [
     'eslint:recommended', // Use recommended ESLint rules
