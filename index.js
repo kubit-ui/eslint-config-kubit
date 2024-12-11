@@ -59,7 +59,8 @@ module.exports = ({
       { 'ts-expect-error': 'allow-with-description' },
     ], // Disallow @ts-<directive> comments except for @ts-expect-error with description
     '@typescript-eslint/no-empty-function': 'error', // Disallow empty functions
-    '@typescript-eslint/no-duplicate-enum-values': 'off', // Allow duplicate enum values
+    '@typescript-eslint/no-duplicate-enum-values': 'off', // Allow duplicate enum values,
+    '@typescript-eslint/no-shadow': 'error', // Disallow variable declarations from shadowing variables declared in the outer scope
 
     // React rules
     'react/react-in-jsx-scope': 'off', // React 17+ does not require React to be in scope
@@ -198,7 +199,6 @@ module.exports = ({
     // Additional rules
     'no-console': 'error', // Disallow console.log
     'no-alert': 'error', // Disallow alert
-    'no-shadow': 'error', // Disallow variable shadowing
     'no-duplicate-imports': 'error', // Disallow duplicate imports
     'no-param-reassign': 'error', // Disallow reassigning function parameters
     'prefer-const': 'error', // Prefer const over let
