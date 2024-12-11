@@ -101,16 +101,6 @@ module.exports = ({
 
     // General JavaScript rules
     curly: ['error', 'all'], // Enforce consistent brace style for all control statements
-    'comma-dangle': [
-      'error',
-      {
-        arrays: 'always-multiline',
-        objects: 'always-multiline',
-        imports: 'always-multiline',
-        exports: 'always-multiline',
-        functions: 'always-multiline',
-      },
-    ], // Enforce consistent use of trailing commas
     'jsx-quotes': ['error', 'prefer-double'], // Enforce the consistent use of double quotes in JSX attributes
     'no-cond-assign': ['error', 'always'], // Disallow assignment operators in conditional expressions
     'no-constant-condition': 'error', // Disallow constant expressions in conditions

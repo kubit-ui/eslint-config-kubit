@@ -71,6 +71,7 @@ module.exports = eslintConfig({
       files: ['**/*.{js,jsx,ts,tsx}'],
       rules: {
         'no-magic-numbers': 'off',
+        'comma-dangle': 'off',
       },
     },
   ],
