@@ -1,5 +1,5 @@
 module.exports = ({
-  noIndexImportConfig,
+  noIndexImportConfig = {},
   noRestrictedImportsConfig,
   tsConfigPath = '',
 }) => ({
@@ -182,10 +182,8 @@ module.exports = ({
       ? [
           'error',
           {
-            aliases: {
-              noIndexImportConfig: noIndexImportConfig?.aliases,
-            },
-            ignoreImports: [noIndexImportConfig?.ignoreImports || 'react'],
+            aliases: noIndexImportConfig?.aliases || {},
+            ignoreImports: noIndexImportConfig?.ignoreImports || [],
           },
         ]
       : 'off', // Disallow importing index files
@@ -196,7 +194,8 @@ module.exports = ({
     'jest/no-test-prefixes': 'off', // Turn off enforcing no test prefixes in Jest
     'jest/no-focused-tests': 'error', // Disallow focused tests in Jest
     'no-throw-literal': 'error', // Disallow throwing literals as exceptions
-    'import/no-cycle': ['error', { maxDepth: 4 }], // Disallow cyclic dependencies with a max depth of 4
+    'import/no-cycle': ['error', { maxDepth: 4 }], // Disallow cyclic dependencies with a max depth of 4,
+    'import/no-unresolved': 'off', // Turn off enforcing no unresolved imports
     'no-restricted-imports': [
       'error',
       {

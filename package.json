@@ -1,6 +1,6 @@
 {
-  "name": "@kubit-ui-web/kubit-eslint-config",
-  "version": "1.0.0",
+  "name": "eslint-config-kubit",
+  "version": "0.0.1",
   "description": "Kubit ESLint configuration for TypeScript projects",
   "author": {
     "name": "Kubit",
@@ -39,9 +39,12 @@
     "typescript"
   ],
   "peerDependencies": {
-    "eslint": "^7.0.0",
-    "eslint-plugin-react": "^7.0.0",
-    "@typescript-eslint/parser": "^4.0.0",
-    "@typescript-eslint/eslint-plugin": "^4.0.0"
+    "eslint": "^8.2.0",
+    "eslint-plugin-react": "^7.37.2",
+    "@typescript-eslint/parser": "^7.17.0",
+    "@typescript-eslint/eslint-plugin": "^6.19.0"
+  },
+  "devDependencies": {
+    "eslint": "^8.2.0"
   }
 }
