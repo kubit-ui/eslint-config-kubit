@@ -15,6 +15,7 @@ module.exports = ({
   globals: {
     JSX: true,
     React: 'writable',
+    NodeJS: 'writable',
   },
   extends: [
     'eslint:recommended', // Use recommended ESLint rules
