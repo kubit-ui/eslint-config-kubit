@@ -51,6 +51,7 @@ module.exports = ({
     '@kubit-ui-web/no-index-import', // Add custom plugin for no-index-import,
     'no-relative-import-paths', // Add custom plugin for no-relative-import-paths
     'simple-import-sort', // Add simple import sort plugin
+    'import', // Add import plugin
   ],
   rules: {
     // TypeScript rules

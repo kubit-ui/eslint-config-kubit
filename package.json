@@ -1,6 +1,6 @@
 {
   "name": "eslint-config-kubit",
-  "version": "0.0.10",
+  "version": "0.0.11",
   "description": "Kubit ESLint configuration for TypeScript projects",
   "author": {
     "name": "Kubit",
@@ -44,7 +44,8 @@
     "@typescript-eslint/parser": "^7.17.0",
     "@typescript-eslint/eslint-plugin": "^6.19.0",
     "eslint-plugin-no-relative-import-paths": "^1.5.5",
-    "eslint-plugin-simple-import-sort": "^12.1.1"
+    "eslint-plugin-simple-import-sort": "^12.1.1",
+    "eslint-plugin-import": "2.29.0"
   },
   "devDependencies": {
     "eslint": "^8.2.0"
