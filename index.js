@@ -50,6 +50,7 @@ module.exports = ({
     'jest', // Add Jest plugin
     '@kubit-ui-web/no-index-import', // Add custom plugin for no-index-import,
     'no-relative-import-paths', // Add custom plugin for no-relative-import-paths
+    'simple-import-sort', // Add simple import sort plugin
   ],
   rules: {
     // TypeScript rules
@@ -197,6 +198,34 @@ module.exports = ({
       {
         // Restrict certain imports based on the provided configuration
         paths: noRestrictedImportsConfig?.paths || [],
+      },
+    ],
+
+    // Simple import sort rules
+    'simple-import-sort/exports': 'error',
+    'simple-import-sort/imports': [
+      'error',
+      {
+        groups: [
+          // Packages `react` related packages come first, and testing
+          ['^react', '^@testing?\\w'],
+          // Internal packages, example @gruposantander
+          ['^@?\\w'],
+          // Base imports
+          ['^@/?\\w'],
+          // Side effect imports, JIC, not frequent
+          ['^\\u0000'],
+          // Parent imports
+          ['^\\.\\.(?!/?$)', '^\\.\\./?$'],
+          // Other relative imports, avoiding type imports
+          [
+            '^\\./(?=.*/)(?!/?$)(?!.*\\u0000)',
+            '^\\.(?!/?$)(?!.*\\u0000)',
+            '^\\./?$',
+          ],
+          // Type imports, so that types are on its own at the end
+          ['^\\u0000import type'],
+        ],
       },
     ],
 
