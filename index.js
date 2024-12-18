@@ -263,5 +263,14 @@ module.exports = ({
       '@typescript-eslint/parser': ['.ts', '.tsx'], // Use TypeScript parser for these extensions
     },
   },
-  overrides: [...overrides],
+  overrides: [
+    ...overrides,
+    {
+      files: ['**/*.{js,jsx}'],
+      extends: ['plugin:@typescript-eslint/disable-type-checked'],
+      rules: {
+        '@typescript-eslint/explicit-module-boundary-types': 'off',
+      },
+    },
+  ],
 });
