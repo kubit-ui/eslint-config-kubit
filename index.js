@@ -140,7 +140,6 @@ module.exports = ({
     'no-multi-spaces': ['error', { ignoreEOLComments: false }], // Disallow multiple spaces
     'no-useless-return': 'error', // Disallow redundant return statements
     'no-var': 'error', // Require let or const instead of var
-    'newline-per-chained-call': ['error', { ignoreChainWithDepth: 2 }], // Require a newline after each call in a method chain
 
     // Accessibility rules
     'jsx-a11y/alt-text': 'error', // Enforce alt text on images
