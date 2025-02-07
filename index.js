@@ -55,6 +55,7 @@ module.exports = ({
   ],
   rules: {
     // TypeScript rules
+    '@typescript-eslint/no-non-null-assertion': 'error', // Disallow non-null assertions
     '@typescript-eslint/no-unused-vars': 'error', // Disallow unused variables
     '@typescript-eslint/no-explicit-any': 'error', // Disallow usage of the any type
     '@typescript-eslint/consistent-type-definitions': ['error', 'interface'], // Enforce consistent usage of type definitions
