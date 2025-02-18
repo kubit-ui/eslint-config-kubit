@@ -3,6 +3,8 @@ module.exports = ({
   noRestrictedImportsConfig,
   tsConfigPath = '',
   overrides = [],
+  checkBrowserCompatibility = false,
+  browserList = ['> 1%', 'last 2 versions', 'not ie <= 11'],
 }) => ({
   env: {
     browser: true, // Enable browser global variables
@@ -51,7 +53,8 @@ module.exports = ({
     '@kubit-ui-web/no-index-import', // Add custom plugin for no-index-import,
     'no-relative-import-paths', // Add custom plugin for no-relative-import-paths
     'simple-import-sort', // Add simple import sort plugin
-    'import', // Add import plugin
+    'import', // Add import plugin,
+    checkBrowserCompatibility && 'compat', // Add compatibility plugin if enabled
   ],
   rules: {
     // TypeScript rules
@@ -248,6 +251,9 @@ module.exports = ({
         prefix: '@',
       },
     ], // Disallow relative import paths
+    ...(checkBrowserCompatibility && {
+      'compat/compat': 'error', // Enforce browser compatibility
+    }),
   },
   settings: {
     react: {
@@ -262,6 +268,9 @@ module.exports = ({
     'import/parsers': {
       '@typescript-eslint/parser': ['.ts', '.tsx'], // Use TypeScript parser for these extensions
     },
+    ...(checkBrowserCompatibility && {
+      browsers: browserList, // List of browsers to check compatibility against
+    }),
   },
   overrides: [
     ...overrides,
