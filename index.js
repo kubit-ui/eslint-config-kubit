@@ -54,14 +54,14 @@ module.exports = ({
     'no-relative-import-paths', // Add custom plugin for no-relative-import-paths
     'simple-import-sort', // Add simple import sort plugin
     'import', // Add import plugin,
-    checkBrowserCompatibility && 'compat', // Add compatibility plugin if enabled
+    'compat', // Add compatibility plugin if enabled
   ],
   rules: {
     // TypeScript rules
     '@typescript-eslint/no-non-null-assertion': 'error', // Disallow non-null assertions
     '@typescript-eslint/no-unused-vars': 'error', // Disallow unused variables
     '@typescript-eslint/no-explicit-any': 'error', // Disallow usage of the any type
-    '@typescript-eslint/consistent-type-definitions': ['error', 'interface'], // Enforce consistent usage of type definitions
+    '@typescript-eslint/consistent-type-definitions': ['warn', 'interface'], // Enforce consistent usage of type definitions
     '@typescript-eslint/explicit-module-boundary-types': [
       'error',
       { allowArgumentsExplicitlyTypedAsAny: true },
