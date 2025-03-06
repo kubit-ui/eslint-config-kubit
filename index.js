@@ -230,10 +230,7 @@ module.exports = ({
     }),
 
     // perfectionist rules
-    'perfectionist/sort-objects': [
-      'error',
-      { order: 'asc', type: 'natural', minKeys: 2 },
-    ], // Sort object keys in ascending order, natural type, with a minimum of 2 keys
+    'perfectionist/sort-objects': ['error', { type: 'natural' }], // Sort object keys in ascending order, natural type, with a minimum of 2 keys
     'perfectionist/sort-arrays': [
       'error',
       { order: 'asc', type: 'natural', minItems: 2 },
@@ -243,17 +240,6 @@ module.exports = ({
       {
         order: 'asc',
         type: 'natural',
-        groups: [
-          ['^react', '^@?\\w'],
-          ['^\\u0000'],
-          ['^\\.\\.(?!/?$)', '^\\.\\./?$'],
-          [
-            '^\\./(?=.*/)(?!/?$)(?!.*\\u0000)',
-            '^\\.(?!/?$)(?!.*\\u0000)',
-            '^\\./?$',
-          ],
-          ['^\\u0000import type'],
-        ],
       },
     ], // Sort imports in ascending order, natural type, with specific groups
     'perfectionist/sort-exports': ['error', { order: 'asc', type: 'natural' }], // Sort exports in ascending order, natural type
