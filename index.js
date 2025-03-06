@@ -52,9 +52,9 @@ module.exports = ({
     'jest', // Add Jest plugin
     '@kubit-ui-web/no-index-import', // Add custom plugin for no-index-import,
     'no-relative-import-paths', // Add custom plugin for no-relative-import-paths
-    'simple-import-sort', // Add simple import sort plugin
     'import', // Add import plugin,
     'compat', // Add compatibility plugin if enabled
+    'perfectionist', // // Add perfectionist plugin
   ],
   rules: {
     // TypeScript rules
@@ -74,6 +74,10 @@ module.exports = ({
     '@typescript-eslint/no-duplicate-enum-values': 'off', // Allow duplicate enum values,
     '@typescript-eslint/no-shadow': 'error', // Disallow variable declarations from shadowing variables declared in the outer scope
     '@typescript-eslint/no-use-before-define': ['error', { functions: false }], // Disallow usage of variables before their declaration
+    '@typescript-eslint/no-magic-numbers': [
+      'error',
+      { ignoreTypeIndexes: true },
+    ], // Disallow magic numbers to enforce the use of named constants
 
     // React rules
     'react/react-in-jsx-scope': 'off', // React 17+ does not require React to be in scope
@@ -128,7 +132,6 @@ module.exports = ({
     'no-use-before-define': 'off', // Turn off disallowing the use of variables before they are defined
     'no-undef': 'error', // Disallow the use of undeclared variables
     'no-unreachable': 'error', // Disallow unreachable code after return, throw, continue, and break statements
-    'no-unused-vars': ['error', { args: 'none', ignoreRestSiblings: true }], // Disallow unused variables
     quotes: [
       'error',
       'single',
@@ -205,41 +208,12 @@ module.exports = ({
       },
     ],
 
-    // Simple import sort rules
-    'simple-import-sort/exports': 'error',
-    'simple-import-sort/imports': [
-      'error',
-      {
-        groups: [
-          // Packages `react` related packages come first, and testing
-          ['^react', '^@testing?\\w'],
-          // Internal packages, example @gruposantander
-          ['^@?\\w'],
-          // Base imports
-          ['^@/?\\w'],
-          // Side effect imports, JIC, not frequent
-          ['^\\u0000'],
-          // Parent imports
-          ['^\\.\\.(?!/?$)', '^\\.\\./?$'],
-          // Other relative imports, avoiding type imports
-          [
-            '^\\./(?=.*/)(?!/?$)(?!.*\\u0000)',
-            '^\\.(?!/?$)(?!.*\\u0000)',
-            '^\\./?$',
-          ],
-          // Type imports, so that types are on its own at the end
-          ['^\\u0000import type'],
-        ],
-      },
-    ],
-
     // Additional rules
     'no-console': 'error', // Disallow console.log
     'no-alert': 'error', // Disallow alert
     'no-duplicate-imports': 'error', // Disallow duplicate imports
     'no-param-reassign': 'error', // Disallow reassigning function parameters
     'prefer-const': 'error', // Prefer const over let
-    'no-magic-numbers': 'error', // Disallow magic numbers
     'consistent-return': 'error', // Enforce consistent return statements
     'no-unneeded-ternary': 'error', // Disallow unnecessary ternary expressions
     'no-relative-import-paths/no-relative-import-paths': [
@@ -254,6 +228,35 @@ module.exports = ({
     ...(checkBrowserCompatibility && {
       'compat/compat': 'error', // Enforce browser compatibility
     }),
+
+    // perfectionist rules
+    'perfectionist/sort-objects': [
+      'error',
+      { order: 'asc', type: 'natural', minKeys: 2 },
+    ], // Sort object keys in ascending order, natural type, with a minimum of 2 keys
+    'perfectionist/sort-arrays': [
+      'error',
+      { order: 'asc', type: 'natural', minItems: 2 },
+    ], // Sort array elements in ascending order, natural type, with a minimum of 2 items
+    'perfectionist/sort-imports': [
+      'error',
+      {
+        order: 'asc',
+        type: 'natural',
+        groups: [
+          ['^react', '^@?\\w'],
+          ['^\\u0000'],
+          ['^\\.\\.(?!/?$)', '^\\.\\./?$'],
+          [
+            '^\\./(?=.*/)(?!/?$)(?!.*\\u0000)',
+            '^\\.(?!/?$)(?!.*\\u0000)',
+            '^\\./?$',
+          ],
+          ['^\\u0000import type'],
+        ],
+      },
+    ], // Sort imports in ascending order, natural type, with specific groups
+    'perfectionist/sort-exports': ['error', { order: 'asc', type: 'natural' }], // Sort exports in ascending order, natural type
   },
   settings: {
     react: {
@@ -279,6 +282,13 @@ module.exports = ({
       extends: ['plugin:@typescript-eslint/disable-type-checked'],
       rules: {
         '@typescript-eslint/explicit-module-boundary-types': 'off',
+      },
+    },
+    {
+      files: ['package.json'],
+      rules: {
+        quotes: 0,
+        semi: 0,
       },
     },
   ],
