@@ -1,6 +1,6 @@
 {
   "name": "eslint-config-kubit",
-  "version": "0.0.21",
+  "version": "0.0.22",
   "description": "Kubit ESLint configuration for TypeScript projects",
   "author": {
     "name": "Kubit",
@@ -28,7 +28,7 @@
   "main": "index.js",
   "files": [
     "index.js",
-    "flat-config.js",
+    "flat-config.mjs",
     "package.json",
     "README.md",
     "LICENSE.md"
@@ -60,5 +60,8 @@
     "eslint-plugin-no-relative-import-paths": "^1.5.5",
     "eslint-plugin-react": "^7.37.2",
     "eslint-plugin-perfectionist": "^4.9.0"
+  },
+  "exports": {
+    "./flat-config": "./flat-config.mjs"
   }
 }
