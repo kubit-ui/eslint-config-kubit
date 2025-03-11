@@ -28,6 +28,7 @@
   "main": "index.js",
   "files": [
     "index.js",
+    "flat-config.js",
     "package.json",
     "README.md",
     "LICENSE.md"
