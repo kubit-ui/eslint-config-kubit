@@ -5,49 +5,53 @@ This package provides Kubit's ESLint configuration as an extensible shared confi
 ## Installation
 
 ```bash
-npm install --save-dev eslint eslint-config-kubit
+npm install --save-dev eslint eslint-config-kubit@0.0.3-flat
 ```
 
 or
 
 ```bash
-yarn add --dev eslint eslint-config-kubit
+yarn add --dev eslint eslint-config-kubit@0.0.3-flat
 ```
 
 ### Dependencies
 
 This package requires the following peer dependencies:
 
-- `eslint` 7.x | 8.x
-- `eslint-plugin-react`
-- `@typescript-eslint/parser`
-- `@typescript-eslint/eslint-plugin`
-- `eslint-plugin-no-relative-import-paths`
+- `eslint` 9.x
 
 ```bash
-npm install --save-dev eslint eslint-plugin-react @typescript-eslint/parser @typescript-eslint/eslint-plugin eslint-plugin-no-relative-import-paths
+npm install --save-dev eslint
 ```
 
 or
 
 ```bash
-yarn add --dev eslint eslint-plugin-react @typescript-eslint/parser @typescript-eslint/eslint-plugin eslint-plugin-no-relative-import-paths
+yarn add --dev eslint
 ```
 
 ## Usage
 
-Create an `.eslintrc.js` file in the root of your project and extend the configuration:
+Create an `eslint.config.js` file in the root of your project and extend the configuration:
 
 ```js
-const eslintConfig = require('eslint-config-kubit');
+const eslintFlatConfig = require('eslint-config-kubit');
 const path = require('path');
 
-module.exports = eslintConfig({
+module.exports = eslintFlatConfig({
+  checkBrowserCompatibility: true,
+  browserList: [
+    '> 0.5%',
+    'last 2 versions',
+    'Firefox ESR',
+    'not dead',
+    'iOS >= 10',
+    'Safari >= 10',
+    'Edge >= 15',
+  ],
   noIndexImportConfig: {
     aliases: {
-      '@/components': './src/components/*',
-      '@/hooks': './src/hooks/*',
-      '@/utils': './src/utils/*',
+      '@/types': './src/types/*',
     },
   },
   tsConfigPath: path.resolve(__dirname, './tsconfig.json'),
@@ -57,22 +61,20 @@ module.exports = eslintConfig({
 If need override some rules, you can pass an argument to the function:
 
 ```js
-const eslintConfig = require('eslint-config-kubit');
+const eslintFlatConfig = require('eslint-config-kubit');
 const path = require('path');
 
-module.exports = eslintConfig({
-  noIndexImportConfig: {
-    aliases: {
-      '@/types': './src/types/*',
-    },
-  },
-  tsConfigPath: path.resolve(__dirname, './tsconfig.json'),
+module.exports = eslintFlatConfig({
   overrides: [
     {
       files: ['**/*.{js,jsx,ts,tsx}'],
       rules: {
-        'no-magic-numbers': 'off',
-        'comma-dangle': 'off',
+        '@typescript-eslint/no-magic-numbers': 'off',
+        '@typescript-eslint/no-unused-vars': 'off',
+        'react/no-multi-comp': 'off',
+        complexity: 'off',
+        'unused-imports/no-unused-imports': 'off',
+        'compat/compat': 'off',
       },
     },
   ],
