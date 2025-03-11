@@ -3,17 +3,17 @@ const eslintParser = require('@typescript-eslint/parser');
 const eslint = require('@eslint/js');
 const tseslint = require('typescript-eslint');
 const typescriptEslint = require('@typescript-eslint/eslint-plugin');
-const reactEslint = require('eslint-plugin-react');
+const react = require('eslint-plugin-react');
 const reactHooksEslint = require('eslint-plugin-react-hooks');
 const jsxAccessibilityEslint = require('eslint-plugin-jsx-a11y');
 const importEslint = require('eslint-plugin-import');
-const prettierEslint = require('eslint-plugin-prettier');
+const prettier = require('eslint-plugin-prettier');
 const unusedImportsEslint = require('eslint-plugin-unused-imports');
-const jestEslint = require('eslint-plugin-jest');
+const jest = require('eslint-plugin-jest');
 const noIndexImportEslint = require('@kubit-ui-web/eslint-plugin-no-index-import');
 const noRelativeImportPathsEslint = require('eslint-plugin-no-relative-import-paths');
 const compatEslint = require('eslint-plugin-compat');
-const perfectionistEslint = require('eslint-plugin-perfectionist');
+const perfectionist = require('eslint-plugin-perfectionist');
 
 module.exports = ({
   noIndexImportConfig = {},
@@ -43,18 +43,18 @@ module.exports = ({
           },
         },
         plugins: {
-          '@typescript-eslint': typescriptEslint,
-          react: reactEslint,
-          'react-hooks': reactHooksEslint,
+          typescriptEslint,
+          react,
+          reactHooksEslint,
           'jsx-a11y': jsxAccessibilityEslint,
           import: importEslint,
-          prettier: prettierEslint,
+          prettier,
           'unused-imports': unusedImportsEslint,
-          jest: jestEslint,
+          jest,
           '@kubit-ui-web/no-index-import': noIndexImportEslint,
           'no-relative-import-paths': noRelativeImportPathsEslint,
           compat: compatEslint,
-          perfectionist: perfectionistEslint,
+          perfectionist,
         },
         settings: {
           react: {
