@@ -41,6 +41,7 @@
   "dependencies": {
     "@typescript-eslint/eslint-plugin": "^6.19.0",
     "@typescript-eslint/parser": "^7.17.0",
+    "@typescript-eslint/typescript-estree": "^7.16.0",
     "browserslist": "^4.24.4",
     "eslint": "^9.22.0",
     "eslint-config-kubit": "^0.0.25",
@@ -68,6 +69,7 @@
   "peerDependencies": {
     "@typescript-eslint/eslint-plugin": "^6.19.0",
     "@typescript-eslint/parser": "^7.17.0",
+    "@typescript-eslint/typescript-estree": "^7.16.0",
     "browserslist": "^4.24.4",
     "eslint": "^9.22.0",
     "eslint-config-kubit": "^0.0.25",
