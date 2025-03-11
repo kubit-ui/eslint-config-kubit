@@ -15,14 +15,14 @@ const noRelativeImportPathsEslint = require('eslint-plugin-no-relative-import-pa
 const compatEslint = require('eslint-plugin-compat');
 const perfectionistEslint = require('eslint-plugin-perfectionist');
 
-export function eslintFlatConfig({
+module.exports = ({
   noIndexImportConfig = {},
   noRestrictedImportsConfig,
   tsConfigPath = '',
   overrides = [],
   checkBrowserCompatibility = false,
   browserList = ['> 1%', 'last 2 versions', 'not ie <= 11'],
-}) {
+}) => {
   return defineConfig(
     eslint.configs.recommended,
     tseslint.configs.recommended,
@@ -271,4 +271,4 @@ export function eslintFlatConfig({
       ...overrides,
     ]
   );
-}
+};
