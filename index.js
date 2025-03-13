@@ -22,6 +22,7 @@ module.exports = ({
   overrides = [],
   checkBrowserCompatibility = false,
   browserList = ['> 1%', 'last 2 versions', 'not ie <= 11'],
+  globals,
 }) => {
   return defineConfig(
     eslint.configs.recommended,
@@ -35,6 +36,7 @@ module.exports = ({
             JSX: true,
             React: 'writable',
             NodeJS: 'writable',
+            ...globals,
           },
           parser: eslintParser,
           parserOptions: {
