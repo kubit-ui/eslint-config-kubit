@@ -1,6 +1,6 @@
 {
   "name": "eslint-config-kubit",
-  "version": "0.0.5-flat",
+  "version": "0.0.6-flat",
   "description": "Kubit ESLint configuration for TypeScript projects",
   "author": {
     "name": "Kubit",
@@ -63,7 +63,6 @@
     "eslint-plugin-react-hooks": "^5.2.0",
     "eslint-plugin-react-refresh": "^0.4.19",
     "eslint-plugin-simple-import-sort": "^12.1.1",
-    "eslint-plugin-storybook": "^0.11.4",
     "eslint-plugin-unused-imports": "^4.1.4",
     "@kubit-ui-web/eslint-plugin-no-index-import": "^1.0.2",
     "@eslint/compat": "^1.2.7",
@@ -94,7 +93,6 @@
     "eslint-plugin-react-hooks": "^5.2.0",
     "eslint-plugin-react-refresh": "^0.4.19",
     "eslint-plugin-simple-import-sort": "^12.1.1",
-    "eslint-plugin-storybook": "^0.11.4",
     "eslint-plugin-unused-imports": "^4.1.4",
     "@kubit-ui-web/eslint-plugin-no-index-import": "^1.0.2",
     "@eslint/compat": "^1.2.7",
