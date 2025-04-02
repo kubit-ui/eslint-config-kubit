@@ -23,6 +23,7 @@ module.exports = ({
   checkBrowserCompatibility = false,
   browserList = ['> 1%', 'last 2 versions', 'not ie <= 11'],
   globals,
+  isReact = true,
 }) => {
   return defineConfig(
     eslint.configs.recommended,
@@ -33,8 +34,7 @@ module.exports = ({
           ecmaVersion: 'latest',
           sourceType: 'module',
           globals: {
-            JSX: true,
-            React: 'writable',
+            ...(isReact && { JSX: true, React: 'writable' }),
             NodeJS: 'writable',
             ...globals,
           },
@@ -46,9 +46,11 @@ module.exports = ({
         },
         plugins: {
           typescriptEslint,
-          react,
-          reactHooksEslint,
-          'jsx-a11y': jsxAccessibilityEslint,
+          ...(isReact && {
+            react,
+            reactHooksEslint,
+            'jsx-a11y': jsxAccessibilityEslint,
+          }),
           import: importEslint,
           prettier,
           'unused-imports': unusedImportsEslint,
@@ -59,9 +61,11 @@ module.exports = ({
           perfectionist,
         },
         settings: {
-          react: {
-            version: 'detect',
-          },
+          ...(isReact && {
+            react: {
+              version: 'detect',
+            },
+          }),
           'import/resolver': {
             node: {
               extensions: ['.js', '.jsx', '.ts', '.tsx'],
@@ -102,6 +106,7 @@ module.exports = ({
             { ignoreTypeIndexes: true },
           ], // Disallow magic numbers to enforce the use of named constants
 
+          ...(isReact && {
           // React rules
           'react/react-in-jsx-scope': 'off', // React 17+ does not require React to be in scope
           'react/self-closing-comp': 'error', // Enforce self-closing tags for components without children
@@ -137,44 +142,7 @@ module.exports = ({
             { callbacksLast: true, shorthandFirst: true, reservedFirst: true },
           ], // Enforce props alphabetical sorting
           'react/jsx-tag-spacing': ['error', { beforeSelfClosing: 'always' }], // Enforce space before self-closing bracket in JSX
-          // Prettier rule
-          'prettier/prettier': ['error'], // Enforce Prettier formatting
-
-          // General JavaScript rules
-          curly: ['error', 'all'], // Enforce consistent brace style for all control statements
           'jsx-quotes': ['error', 'prefer-double'], // Enforce the consistent use of double quotes in JSX attributes
-          'no-cond-assign': ['error', 'always'], // Disallow assignment operators in conditional expressions
-          'no-constant-condition': 'error', // Disallow constant expressions in conditions
-          'no-debugger': 'error', // Disallow the use of debugger
-          'no-useless-escape': 'error', // Disallow unnecessary escape characters
-          'no-case-declarations': 'warn', // Disallow lexical declarations in case clauses
-          'no-extra-boolean-cast': [
-            'error',
-            { enforceForLogicalOperands: true },
-          ], // Disallow unnecessary boolean casts
-          'no-extra-semi': 'error', // Disallow unnecessary semicolons
-          'no-func-assign': 'error', // Disallow reassigning function declarations
-          'no-inner-declarations': 'error', // Disallow variable or function declarations in nested blocks
-          'no-use-before-define': 'off', // Turn off disallowing the use of variables before they are defined
-          'no-undef': 'error', // Disallow the use of undeclared variables
-          'no-unreachable': 'error', // Disallow unreachable code after return, throw, continue, and break statements
-          quotes: [
-            'error',
-            'single',
-            { avoidEscape: true, allowTemplateLiterals: false },
-          ], // Enforce the consistent use of single quotes
-          semi: ['error', 'always'], // Require or disallow semicolons instead of ASI
-          eqeqeq: ['error', 'always', { null: 'ignore' }], // Require the use of === and !==
-          complexity: ['error', { max: 5 }], // Enforce a maximum cyclomatic complexity allowed in a program
-          'block-scoped-var': 'error', // Enforce the use of variables within the scope they are defined
-          'no-else-return': ['error', { allowElseIf: false }], // Disallow return before else
-          'no-eval': 'error', // Disallow the use of eval()
-          'no-lone-blocks': 'error', // Disallow unnecessary nested blocks
-          'no-multi-spaces': ['error', { ignoreEOLComments: false }], // Disallow multiple spaces
-          'no-useless-return': 'error', // Disallow redundant return statements
-          'no-var': 'error', // Require let or const instead of var
-
-          // Accessibility rules
           'jsx-a11y/alt-text': 'error', // Enforce alt text on images
           'jsx-a11y/anchor-has-content': 'error', // Enforce anchor elements to contain accessible content
           'jsx-a11y/anchor-is-valid': 'error', // Enforce valid anchor elements
@@ -206,6 +174,43 @@ module.exports = ({
           'jsx-a11y/role-supports-aria-props': 'error', // Enforce that elements with explicit or implicit roles defined contain only aria-* properties supported by that role
           'jsx-a11y/scope': 'error', // Enforce that <th> elements have a scope attribute
           'jsx-a11y/tabindex-no-positive': 'error', // Enforce that tabIndex value is not greater than zero
+        }),
+
+          // Prettier rule
+          'prettier/prettier': ['error'], // Enforce Prettier formatting
+
+          // General JavaScript rules
+          curly: ['error', 'all'], // Enforce consistent brace style for all control statements
+          'no-cond-assign': ['error', 'always'], // Disallow assignment operators in conditional expressions
+          'no-constant-condition': 'error', // Disallow constant expressions in conditions
+          'no-debugger': 'error', // Disallow the use of debugger
+          'no-useless-escape': 'error', // Disallow unnecessary escape characters
+          'no-case-declarations': 'warn', // Disallow lexical declarations in case clauses
+          'no-extra-boolean-cast': [
+            'error',
+            { enforceForLogicalOperands: true },
+          ], // Disallow unnecessary boolean casts
+          'no-extra-semi': 'error', // Disallow unnecessary semicolons
+          'no-func-assign': 'error', // Disallow reassigning function declarations
+          'no-inner-declarations': 'error', // Disallow variable or function declarations in nested blocks
+          'no-use-before-define': 'off', // Turn off disallowing the use of variables before they are defined
+          'no-undef': 'error', // Disallow the use of undeclared variables
+          'no-unreachable': 'error', // Disallow unreachable code after return, throw, continue, and break statements
+          quotes: [
+            'error',
+            'single',
+            { avoidEscape: true, allowTemplateLiterals: false },
+          ], // Enforce the consistent use of single quotes
+          semi: ['error', 'always'], // Require or disallow semicolons instead of ASI
+          eqeqeq: ['error', 'always', { null: 'ignore' }], // Require the use of === and !==
+          complexity: ['error', { max: 5 }], // Enforce a maximum cyclomatic complexity allowed in a program
+          'block-scoped-var': 'error', // Enforce the use of variables within the scope they are defined
+          'no-else-return': ['error', { allowElseIf: false }], // Disallow return before else
+          'no-eval': 'error', // Disallow the use of eval()
+          'no-lone-blocks': 'error', // Disallow unnecessary nested blocks
+          'no-multi-spaces': ['error', { ignoreEOLComments: false }], // Disallow multiple spaces
+          'no-useless-return': 'error', // Disallow redundant return statements
+          'no-var': 'error', // Require let or const instead of var
 
           // Custom rules
           '@kubit-ui-web/no-index-import/no-index-import': noIndexImportConfig
