@@ -84,6 +84,7 @@ module.exports = ({
           // TypeScript rules
           '@typescript-eslint/no-non-null-assertion': 'error', // Disallow non-null assertions
           '@typescript-eslint/no-explicit-any': 'error', // Disallow usage of the any type
+          '@typescript-eslint/consistent-type-imports': 'error', // Enforce consistent use of type imports
           '@typescript-eslint/consistent-type-definitions': [
             'warn',
             'interface',
@@ -110,6 +111,10 @@ module.exports = ({
 
           ...(isReact && {
             // React rules
+            'react/jsx-curly-brace-presence': [
+              'error',
+              { props: 'never', children: 'ignore' },
+            ], // Enforce or disallow the use of curly braces in JSX props
             'react/react-in-jsx-scope': 'off', // React 17+ does not require React to be in scope
             'react/self-closing-comp': 'error', // Enforce self-closing tags for components without children
             'react/jsx-boolean-value': ['error', 'always'], // Enforce boolean attributes notation in JSX

@@ -1,6 +1,6 @@
 {
   "name": "eslint-config-kubit",
-  "version": "0.0.9-flat",
+  "version": "0.0.10-flat",
   "description": "Kubit ESLint configuration for TypeScript projects",
   "author": {
     "name": "Kubit",
