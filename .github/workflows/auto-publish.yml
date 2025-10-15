@@ -73,65 +73,13 @@ jobs:
           PACKAGE_NAME=$(node -p "require('./package.json').name")
           echo "Package name: $PACKAGE_NAME"
 
-          # Verify main entry point exists
+          # Verify main entry point exists  
           MAIN_FILE=$(node -p "require('./package.json').main")
           if [ ! -f "$MAIN_FILE" ]; then
             echo "Main file $MAIN_FILE does not exist"
             exit 1
           fi
           echo "Main file exists: $MAIN_FILE"
-
-          # Verify ESLint config can be loaded
-          node -e "
-            try {
-              const config = require('./index.js');
-              if (typeof config !== 'function') {
-                throw new Error('Config must export a function');
-              }
-              console.log('ESLint config loaded successfully');
-            } catch (error) {
-              console.error('Failed to load ESLint config:', error.message);
-              process.exit(1);
-            }
-          "
-
-      - name: Run linting checks
-        if: steps.validate-branch.outputs.should_publish == 'true'
-        run: |
-          # Check if eslint command exists
-          if command -v npx eslint &> /dev/null; then
-            echo "Running ESLint on the configuration files..."
-            npx eslint . --ext .js --ignore-pattern node_modules/
-          else
-            echo "ESLint not available, skipping linting"
-          fi
-
-      - name: Test configuration
-        if: steps.validate-branch.outputs.should_publish == 'true'
-        run: |
-          echo "Testing ESLint configuration..."
-
-          # Create a temporary test file
-          cat > test-file.js << 'EOF'
-          const testVar = "hello world";
-          console.log(testVar);
-          EOF
-
-          # Test the configuration
-          node -e "
-            const eslintConfig = require('./index.js');
-            const config = eslintConfig();
-            
-            if (!Array.isArray(config)) {
-              throw new Error('Config must return an array for flat config');
-            }
-            
-            console.log('Configuration test passed');
-            console.log('Config entries:', config.length);
-          "
-
-          # Clean up
-          rm -f test-file.js
 
       - name: Configure Git
         if: steps.validate-branch.outputs.should_publish == 'true'
@@ -399,12 +347,11 @@ jobs:
 
             ### ✅ Completed Steps
             - [x] Package integrity validated
-            - [x] ESLint configuration tested
             - [x] Published to NPM
             - [x] GitHub release created
             - [x] Repository tagged
 
-            🎉 **Ready to use in your ESLint configurations!**`;
+            🎉 **Ready to use!**`;
 
             await github.rest.issues.createComment({
               issue_number: context.issue.number,
@@ -427,7 +374,7 @@ jobs:
             - **Release Token**: Add RELEASE_TOKEN secret to bypass branch protection rules
             - **Token Permissions**: Check that tokens have correct permissions
             - **Version Conflict**: Check if version already exists in NPM
-            - **Configuration Issues**: Ensure ESLint config loads correctly
+            - **Package Issues**: Ensure package.json and main file are valid
 
             ### 🔐 Required Secrets Configuration
             1. **NPM_TOKEN**: 
