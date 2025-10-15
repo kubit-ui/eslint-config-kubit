@@ -45,7 +45,6 @@ jobs:
         with:
           node-version: "20"
           registry-url: "https://registry.npmjs.org"
-          cache: "npm"
 
       - name: Validate branch patterns
         id: validate-branch
