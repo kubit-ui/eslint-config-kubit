@@ -1,1 +1,28 @@
-/node_modules/
+# Dependencies
+node_modules/
+.editorconfig
+yarn.lock
+
+# Logs
+*.log
+npm-debug.log*
+
+# Cache
+.npm
+.eslintcache
+
+# Environment variables
+.env
+.env.*
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Package files
+*.tgz
