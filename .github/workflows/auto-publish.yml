@@ -65,7 +65,7 @@ jobs:
 
       - name: Install dependencies
         if: steps.validate-branch.outputs.should_publish == 'true'
-        run: npm ci
+        run: npm install
 
       - name: Validate package integrity
         if: steps.validate-branch.outputs.should_publish == 'true'
@@ -256,7 +256,11 @@ jobs:
           npm version $NEW_VERSION --no-git-tag-version
 
           # Commit and tag
-          git add package.json package-lock.json 2>/dev/null || git add package.json
+          git add package.json
+          # Add lock file if it exists
+          if [ -f "package-lock.json" ]; then
+            git add package-lock.json
+          fi
           git commit -m "chore(release): $NEW_VERSION
 
           Released from: $BRANCH_NAME
