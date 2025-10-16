@@ -2,7 +2,7 @@
 
 [![npm version](https://badge.fury.io/js/eslint-config-kubit.svg)](https://badge.fury.io/js/eslint-config-kubit)
 [![License: Apache-2.0](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
-[![Node.js CI](https://github.com/kubit-ui/eslint-config-kubit/workflows/Node.js%20CI/## 🛠️ Development
+
 
 **Requirements:**
 
@@ -126,7 +126,7 @@ module.exports = eslintConfigKubit({
 | `additionalPlugins`         | `object`   | `{}`                                          | Extra ESLint plugins to include         |
 | `overrides`                 | `array`    | `[]`                                          | Configuration overrides                 |
 
-## � Configuration Examples
+## Configuration Examples
 
 ### Basic TypeScript Project
 
@@ -341,7 +341,7 @@ This configuration includes rules from the following ESLint plugins:
 - **[eslint-plugin-jest](https://github.com/jest-community/eslint-plugin-jest)** - Jest testing rules
 - **[eslint-plugin-perfectionist](https://github.com/azat-io/eslint-plugin-perfectionist)** - Sorting and organization rules
 
-## � Migration Guide
+## Migration Guide
 
 ### From v0.x to v1.0.0
 
