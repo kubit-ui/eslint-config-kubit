@@ -44,7 +44,7 @@ This project follows the **fork-based contribution model** to:
 6. **Commit Changes**: Use conventional commit messages for automatic versioning.
 
    ```sh
-   git commit -m "feat(charts): add new scatter plot chart component"
+   git commit -m "feat(rules): add new TypeScript specific eslint rules"
    ```
 
 7. **Keep Your Fork Updated**: Before pushing, sync with the upstream repository.
@@ -78,11 +78,11 @@ Use these branch prefixes for eslint-config-kubit to ensure automatic publishing
 
 | Branch Pattern | Version Bump | Example | Description |
 |----------------|--------------|---------|-------------|
-| `feat/` or `feature/` | **MINOR** | `feat/scatter-plot` | New chart types or features |
-| `fix/` or `bugfix/` | **PATCH** | `fix/line-chart-rendering` | Bug fixes in charts |
-| `break/` or `breaking/` | **MAJOR** | `break/remove-old-chart-api` | Breaking API changes |
-| `hotfix/` | **PATCH** | `hotfix/critical-chart-bug` | Urgent chart fixes |
-| `chore/` | **PATCH** | `chore/update-d3-version` | Maintenance tasks |
+| `feat/` or `feature/` | **MINOR** | `feat/typescript-rules` | New ESLint rules or configurations |
+| `fix/` or `bugfix/` | **PATCH** | `fix/rule-conflict` | Bug fixes in rule configurations |
+| `break/` or `breaking/` | **MAJOR** | `break/remove-deprecated-rules` | Breaking configuration changes |
+| `hotfix/` | **PATCH** | `hotfix/critical-rule-error` | Urgent rule fixes |
+| `chore/` | **PATCH** | `chore/update-eslint-version` | Maintenance tasks |
 
 #### Advanced Version Detection
 
@@ -97,40 +97,40 @@ The system also analyzes your **PR title** and **description** for more precise 
 ##### MINOR (New Features)
 - PR titles starting with `feat:` or `feature:`
 - `[feature]` tag in PR title
-- Conventional commits like `feat(charts): add bubble chart component`
+- Conventional commits like `feat(rules): add TypeScript strict mode configuration`
 
 ##### PATCH (Bug Fixes & Others)
 - PR titles starting with `fix:` or `bugfix:`
 - All other changes (default behavior)
-- Conventional commits like `fix(pieChart): tooltip positioning issue`
+- Conventional commits like `fix(config): resolve rule conflict with prettier`
 
 #### Examples for eslint-config-kubit
 
-**Adding a new chart type:**
+**Adding new ESLint rules:**
 ```sh
-git checkout -b feat/radar-chart
+git checkout -b feat/typescript-strict-rules
 # Make your changes in your fork
-git commit -m "feat(charts): add radar chart component with customizable axes"
-# Create PR with title: "feat(charts): add radar chart component"
+git commit -m "feat(rules): add TypeScript strict mode rules for better type safety"
+# Create PR with title: "feat(rules): add TypeScript strict mode rules"
 # Result: MINOR version bump (e.g., 1.0.0 → 1.1.0)
 ```
 
-**Fixing a chart rendering bug:**
+**Fixing a rule configuration issue:**
 ```sh
-git checkout -b fix/line-chart-data-points
+git checkout -b fix/prettier-conflict
 # Make your changes in your fork
-git commit -m "fix(lineChart): resolve data point alignment issue with large datasets"
-# Create PR with title: "fix(lineChart): resolve data point alignment issue"
+git commit -m "fix(config): resolve conflict between ESLint and Prettier rules"
+# Create PR with title: "fix(config): resolve ESLint-Prettier conflict"
 # Result: PATCH version bump (e.g., 1.0.0 → 1.0.1)
 ```
 
-**Breaking API changes:**
+**Breaking configuration changes:**
 ```sh
-git checkout -b break/chart-props-restructure
+git checkout -b break/remove-deprecated-rules
 # Make your changes in your fork
-git commit -m "feat!: restructure chart component props for better consistency"
-# Create PR with title: "feat!: restructure chart component props"
-# PR description: "BREAKING CHANGE: Chart props have been restructured for better consistency..."
+git commit -m "feat!: remove deprecated ESLint rules and update configuration structure"
+# Create PR with title: "feat!: remove deprecated rules and restructure config"
+# PR description: "BREAKING CHANGE: Deprecated ESLint rules have been removed and configuration structure has changed..."
 # Result: MAJOR version bump (e.g., 1.0.0 → 2.0.0)
 ```
 
@@ -139,7 +139,7 @@ git commit -m "feat!: restructure chart component props for better consistency"
 - **Never push directly** to the main eslint-config-kubit repository
 - Always work on **your own fork** and create pull requests
 - Keep your fork **synchronized** with the upstream repository
-- **Test your charts** thoroughly before submitting
-- Include **screenshots or demos** of new chart types in your PR
-- Update **Storybook stories** for new components
+- **Test your ESLint configuration** thoroughly before submitting
+- Include **examples and documentation** of new rules in your PR
+- Update **README.md** with new configuration options
 - Follow the existing **code style** and patterns used in the project
