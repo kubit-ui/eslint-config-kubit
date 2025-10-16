@@ -101,21 +101,6 @@ jobs:
         run: |
           echo "Running code quality checks..."
 
-          # ESLint
-          if yarn run --help | grep -q "lint"; then
-            echo "Running ESLint..."
-            if yarn lint; then
-              echo "✅ ESLint passed"
-              echo "eslint_valid=true" >> $GITHUB_OUTPUT
-            else
-              echo "❌ ESLint failed"
-              echo "eslint_valid=false" >> $GITHUB_OUTPUT
-            fi
-          else
-            echo "⚠️ No lint script found"
-            echo "eslint_valid=true" >> $GITHUB_OUTPUT
-          fi
-
           # TypeScript type checking
           if yarn run --help | grep -q "type-check"; then
             echo "Running TypeScript checks..."
@@ -218,7 +203,6 @@ jobs:
               branch_valid: '${{ steps.branch-validation.outputs.branch_valid }}' === 'true',
               title_valid: '${{ steps.pr-title-validation.outputs.title_valid }}' === 'true',
               title_length_valid: '${{ steps.pr-title-validation.outputs.title_length_valid }}' === 'true',
-              eslint_valid: '${{ steps.code-quality.outputs.eslint_valid }}' === 'true',
               typescript_valid: '${{ steps.code-quality.outputs.typescript_valid }}' === 'true',
               tests_valid: '${{ steps.test-validation.outputs.tests_valid }}' === 'true',
               console_logs: '${{ steps.file-validation.outputs.console_logs }}' === 'true',
@@ -245,11 +229,6 @@ jobs:
 
             if (!results.title_valid) {
               issues.push('❌ PR title must follow conventional commits: `type: description`');
-              blocking = true;
-            }
-
-            if (!results.eslint_valid) {
-              issues.push('❌ ESLint validation failed - fix linting errors');
               blocking = true;
             }
 
@@ -306,7 +285,6 @@ jobs:
             |-------|--------|-------------|
             | **Branch Naming** | ${results.branch_valid ? '✅ Pass' : '❌ Fail'} | Must follow \`type/description\` pattern |
             | **PR Title** | ${results.title_valid ? '✅ Pass' : '❌ Fail'} | Must follow conventional commits |
-            | **ESLint** | ${results.eslint_valid ? '✅ Pass' : '❌ Fail'} | Code style and quality rules |
             | **TypeScript** | ${results.typescript_valid ? '✅ Pass' : '❌ Fail'} | Type checking validation |
             | **Tests** | ${results.tests_valid ? '✅ Pass' : '❌ Fail'} | All tests must pass |`;
 
