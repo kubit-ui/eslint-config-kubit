@@ -1,155 +1,145 @@
-# Contributing to Kubit ESLint Configuration
+## Contributing
 
-We love your input! We want to make contributing to Kubit ESLint Configuration as easy and transparent as possible, whether it's:
+We welcome contributions to **eslint-config-kubit**! This project is open source and we encourage community participation through **forks and pull requests**. All contributions must be made through the fork workflow - we do not accept direct pushes to the main repository.
 
-- Reporting a bug
-- Discussing the current state of the code
-- Submitting a fix
-- Proposing new features
-- Becoming a maintainer
+### Why Fork-Based Contributing?
 
-## Development Process
+This project follows the **fork-based contribution model** to:
+- Maintain code quality and security
+- Ensure all changes are reviewed before merging
+- Keep the main repository clean and stable
+- Allow contributors to work independently on features
 
-We use GitHub to host code, to track issues and feature requests, as well as accept pull requests.
+### Development Workflow
 
-## Pull Requests Process
+1. **Fork the Repository**: Click the "Fork" button in the upper right corner of the [eslint-config-kubit repository](https://github.com/kubit-ui/eslint-config-kubit) on GitHub. This will create a copy of the repository in your GitHub account.
 
-Pull requests are the best way to propose changes to the codebase. We actively welcome your pull requests:
+2. **Clone Your Fork**: Clone your forked repository to your local machine (not the original repository).
 
-1. **Fork the repo** and create your branch from `main`.
-2. **Add tests** if you've added code that should be tested.
-3. **Update the documentation** if you've changed APIs.
-4. **Ensure the test suite passes** by running `npm test`.
-5. **Make sure your code lints** by running `npm run lint`.
-6. **Issue that pull request!**
-
-## Local Development Setup
-
-### Prerequisites
-
-- Node.js >= 18.0.0
-- npm >= 8.0.0
-
-### Installation
-
-```bash
-# Clone the repository
-git clone https://github.com/kubit-ui/eslint-config-kubit.git
-cd eslint-config-kubit
-
-# Install dependencies
-npm install
-
-# Run tests
-npm test
-
-# Run linting
-npm run lint
-```
-
-### Testing Your Changes
-
-Before submitting your changes, make sure to:
-
-1. **Run the test suite**:
-   ```bash
-   npm test
+   ```sh
+   git clone https://github.com/your-username/eslint-config-kubit.git
+   cd eslint-config-kubit
    ```
 
-2. **Test with your own project**:
-   ```bash
-   # In your test project
-   npm install /path/to/eslint-config-kubit
+3. **Add Original Repository as Upstream**: Add the original repository as a remote to keep your fork synchronized.
+
+   ```sh
+   git remote add upstream https://github.com/kubit-ui/eslint-config-kubit.git
+   git fetch upstream
    ```
 
-3. **Verify ESLint integration**:
-   ```bash
-   npx eslint . --config ./eslint.config.js
+4. **Create a Feature Branch**: Always create a new branch for your changes. Use proper branch naming conventions for automatic version detection.
+
+   ```sh
+   git checkout -b <branch-type>/<branch-name>
    ```
 
-## Code Style Guidelines
+5. **Make Changes**: 
+   - Make your changes to the eslint-config-kubit codebase
+   - Follow the coding standards outlined in our style guide
+   - Add or update tests for your changes
+   - Update documentation if necessary
+   - Test your changes thoroughly using `npm test`
 
-- **Follow existing patterns**: Look at existing code and follow the same patterns
-- **Use meaningful names**: Variables and functions should have descriptive names
-- **Add comments**: Complex logic should be well documented
-- **Keep it simple**: Avoid over-engineering solutions
+6. **Commit Changes**: Use conventional commit messages for automatic versioning.
 
-## Adding New Rules
+   ```sh
+   git commit -m "feat(charts): add new scatter plot chart component"
+   ```
 
-When adding new ESLint rules:
+7. **Keep Your Fork Updated**: Before pushing, sync with the upstream repository.
 
-1. **Categorize appropriately**: Add rules to the correct helper function (`getTypeScriptRules`, `getReactRules`, etc.)
-2. **Provide documentation**: Include clear comments explaining what the rule does
-3. **Consider backwards compatibility**: New rules should generally be warnings before becoming errors
-4. **Test thoroughly**: Ensure the rule works as expected with different code patterns
+   ```sh
+   git fetch upstream
+   git rebase upstream/main
+   ```
 
-### Example: Adding a New TypeScript Rule
+8. **Push to Your Fork**: Push your changes to your forked repository (never to the original).
 
-```javascript
-// In getTypeScriptRules() function
-'@typescript-eslint/new-rule': 'warn', // Brief description of what this rule enforces
+   ```sh
+   git push origin <branch-name>
+   ```
+
+9. **Open a Pull Request**: 
+   - Go to the original [eslint-config-kubit repository](https://github.com/kubit-ui/eslint-config-kubit)
+   - Click "New pull request"
+   - Select "compare across forks"
+   - Choose your fork and branch as the source
+   - Fill out the PR template with details about your changes
+   - Submit the pull request for review
+
+### Branch Naming & Automatic Publishing
+
+This repository uses an **automatic publishing system** that determines the version bump based on your branch name and PR content. When your PR is merged, the package will be automatically published to NPM.
+
+#### Branch Naming Patterns
+
+Use these branch prefixes for eslint-config-kubit to ensure automatic publishing works correctly:
+
+| Branch Pattern | Version Bump | Example | Description |
+|----------------|--------------|---------|-------------|
+| `feat/` or `feature/` | **MINOR** | `feat/scatter-plot` | New chart types or features |
+| `fix/` or `bugfix/` | **PATCH** | `fix/line-chart-rendering` | Bug fixes in charts |
+| `break/` or `breaking/` | **MAJOR** | `break/remove-old-chart-api` | Breaking API changes |
+| `hotfix/` | **PATCH** | `hotfix/critical-chart-bug` | Urgent chart fixes |
+| `chore/` | **PATCH** | `chore/update-d3-version` | Maintenance tasks |
+
+#### Advanced Version Detection
+
+The system also analyzes your **PR title** and **description** for more precise version detection:
+
+##### MAJOR (Breaking Changes)
+- `BREAKING CHANGE:` in PR description
+- `!` in PR title (e.g., `feat!: redesign button API`)
+- `[breaking]` tag in PR title
+- Conventional commits with `!` (e.g., `feat(api)!: change interface`)
+
+##### MINOR (New Features)
+- PR titles starting with `feat:` or `feature:`
+- `[feature]` tag in PR title
+- Conventional commits like `feat(charts): add bubble chart component`
+
+##### PATCH (Bug Fixes & Others)
+- PR titles starting with `fix:` or `bugfix:`
+- All other changes (default behavior)
+- Conventional commits like `fix(pieChart): tooltip positioning issue`
+
+#### Examples for eslint-config-kubit
+
+**Adding a new chart type:**
+```sh
+git checkout -b feat/radar-chart
+# Make your changes in your fork
+git commit -m "feat(charts): add radar chart component with customizable axes"
+# Create PR with title: "feat(charts): add radar chart component"
+# Result: MINOR version bump (e.g., 1.0.0 → 1.1.0)
 ```
 
-## Reporting Issues
-
-We use GitHub issues to track public bugs. Report a bug by [opening a new issue](https://github.com/kubit-ui/eslint-config-kubit/issues/new).
-
-### Bug Reports Should Include:
-
-- **Clear title**: Summarize the issue in the title
-- **Description**: A clear description of what the bug is
-- **Steps to reproduce**: Detailed steps to reproduce the behavior
-- **Expected behavior**: What you expected to happen
-- **Environment**: 
-  - ESLint version
-  - Node.js version
-  - Operating system
-  - Project configuration
-
-### Example Bug Report
-
-```markdown
-**Description**
-ESLint rule X is not working properly with TypeScript interfaces
-
-**Steps to Reproduce**
-1. Create a TypeScript file with interface
-2. Run eslint with kubit config
-3. Rule X should trigger but doesn't
-
-**Expected Behavior**
-Rule X should report an error for invalid interface usage
-
-**Environment**
-- ESLint: 9.31.0
-- Node.js: 18.17.0
-- OS: macOS 13.4
+**Fixing a chart rendering bug:**
+```sh
+git checkout -b fix/line-chart-data-points
+# Make your changes in your fork
+git commit -m "fix(lineChart): resolve data point alignment issue with large datasets"
+# Create PR with title: "fix(lineChart): resolve data point alignment issue"
+# Result: PATCH version bump (e.g., 1.0.0 → 1.0.1)
 ```
 
-## Feature Requests
+**Breaking API changes:**
+```sh
+git checkout -b break/chart-props-restructure
+# Make your changes in your fork
+git commit -m "feat!: restructure chart component props for better consistency"
+# Create PR with title: "feat!: restructure chart component props"
+# PR description: "BREAKING CHANGE: Chart props have been restructured for better consistency..."
+# Result: MAJOR version bump (e.g., 1.0.0 → 2.0.0)
+```
 
-We welcome feature requests! Please provide:
+### Important Notes for Contributors
 
-- **Clear use case**: Why is this feature needed?
-- **Detailed description**: What should the feature do?
-- **Examples**: Code examples showing how it would work
-- **Alternatives considered**: What other approaches did you consider?
-
-## Versioning
-
-We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/kubit-ui/eslint-config-kubit/tags).
-
-## License
-
-By contributing, you agree that your contributions will be licensed under the Apache License 2.0.
-
-## Questions?
-
-Feel free to contact us:
-- 📖 [Documentation](https://www.kubit-ui.com/)
-- 🐛 [Issues](https://github.com/kubit-ui/eslint-config-kubit/issues)
-- 💬 [Discussions](https://github.com/kubit-ui/eslint-config-kubit/discussions)
-
-## Recognition
-
-Contributors will be recognized in our [README](README.md) and release notes. Thank you for making this project better! 🎉
+- **Never push directly** to the main eslint-config-kubit repository
+- Always work on **your own fork** and create pull requests
+- Keep your fork **synchronized** with the upstream repository
+- **Test your charts** thoroughly before submitting
+- Include **screenshots or demos** of new chart types in your PR
+- Update **Storybook stories** for new components
+- Follow the existing **code style** and patterns used in the project
