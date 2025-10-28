@@ -5,6 +5,19 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.0] - 2025-10-28
+
+### Added
+
+- **Global ignores configuration** - New `ignores` parameter allows specifying files, patterns, or directories that ESLint should ignore
+- **Enhanced configuration flexibility** - Support for glob patterns, specific files, and directory exclusions
+- **Improved JSDoc documentation** - Updated parameter documentation to include the new `ignores` option
+
+### Changed
+
+- **Configuration API enhancement** - Added `ignores` array parameter to the main configuration function
+- **Better ESLint flat config compliance** - Proper implementation of global ignores following ESLint 9.x standards
+
 ## [1.0.1] - 2025-10-16
 
 ### Added
