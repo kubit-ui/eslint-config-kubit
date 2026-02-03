@@ -3,7 +3,7 @@
  * Generates clean, professional changelog entries without technical noise
  */
 
-const getReleaseLine = async (changeset, _type) => {
+async function getReleaseLine(changeset, _type) {
   const [firstLine, ...futureLines] = changeset.summary
     .split("\n")
     .map((l) => l.trimEnd());
@@ -27,9 +27,9 @@ const getReleaseLine = async (changeset, _type) => {
   }
 
   return returnVal;
-};
+}
 
-const getDependencyReleaseLine = async (changesets, dependenciesUpdated) => {
+async function getDependencyReleaseLine(changesets, dependenciesUpdated) {
   if (dependenciesUpdated.length === 0) return "";
 
   const updatedDependencies = dependenciesUpdated.map(
@@ -37,7 +37,7 @@ const getDependencyReleaseLine = async (changesets, dependenciesUpdated) => {
   );
 
   return `- **Updated dependencies**\n${updatedDependencies.join("\n")}`;
-};
+}
 
 module.exports = {
   getReleaseLine,
