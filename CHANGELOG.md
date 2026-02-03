@@ -39,6 +39,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### 📦 Technical Details
 
+- **Changesets packages** - Added @changesets/cli and @changesets/changelog-github
+- **Changeset configuration** - Created .changeset/config.json with GitHub changelog integration
+- **Changeset scripts** - Added changeset, changeset:version, changeset:publish, changeset:status
+- **Release workflow** - New .github/workflows/release.yml for automated publishing
+- **Changeset bot** - New .github/workflows/changeset-bot.yml for PR validation
+- **Deprecated workflow** - Renamed auto-publish.yml to auto-publish.yml.deprecated
 - **packageManager field** - Added `"packageManager": "pnpm@10.28.2"` to package.json
 - **Engine requirements** - Updated to require pnpm >= 9.0.0
 - **Lock file** - Replaced yarn.lock and package-lock.json with pnpm-lock.yaml

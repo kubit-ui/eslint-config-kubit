@@ -1,0 +1,182 @@
+name: Changeset Bot
+
+# This workflow checks if a changeset file is present in PRs
+# and reminds contributors to add one if missing
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, labeled, unlabeled]
+    branches:
+      - main
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  changeset-check:
+    name: Check for Changeset
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Check for changesets
+        id: check-changesets
+        run: |
+          # Check if this PR has the 'no-changeset' label
+          HAS_NO_CHANGESET_LABEL="${{ contains(github.event.pull_request.labels.*.name, 'no-changeset') }}"
+
+          # Check if changeset files exist
+          CHANGESET_FILES=$(git diff --name-only origin/${{ github.base_ref }}...HEAD | grep '^.changeset/.*\.md$' | grep -v 'README.md' || true)
+
+          if [ -n "$CHANGESET_FILES" ]; then
+            echo "has_changeset=true" >> $GITHUB_OUTPUT
+            echo "✅ Changeset found:"
+            echo "$CHANGESET_FILES"
+          else
+            echo "has_changeset=false" >> $GITHUB_OUTPUT
+            echo "⚠️ No changeset found"
+          fi
+
+          echo "has_no_changeset_label=$HAS_NO_CHANGESET_LABEL" >> $GITHUB_OUTPUT
+
+      - name: Comment on PR
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const hasChangeset = '${{ steps.check-changesets.outputs.has_changeset }}' === 'true';
+            const hasNoChangesetLabel = '${{ steps.check-changesets.outputs.has_no_changeset_label }}' === 'true';
+            const prNumber = context.issue.number;
+
+            // Get existing comments
+            const { data: comments } = await github.rest.issues.listComments({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: prNumber,
+            });
+
+            const botComment = comments.find(comment =>
+              comment.user.type === 'Bot' &&
+              comment.body.includes('📝 Changeset Status')
+            );
+
+            let message = '';
+
+            if (hasChangeset) {
+              message = `## 📝 Changeset Status: ✅ Present
+
+              Thank you for including a changeset! This will help us generate the changelog and determine the version bump.
+
+              ### What happens next?
+              1. Your PR will be reviewed by maintainers
+              2. Once approved and merged, a "Version Packages" PR will be created/updated
+              3. When the "Version Packages" PR is merged, your changes will be published to NPM
+
+              ---
+              *This is an automated message from the Changeset Bot*`;
+
+              // Delete the comment if changeset is now present
+              if (botComment) {
+                await github.rest.issues.deleteComment({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  comment_id: botComment.id
+                });
+              }
+            } else if (hasNoChangesetLabel) {
+              message = `## 📝 Changeset Status: ⏭️ Skipped
+
+              This PR has been labeled with \`no-changeset\`, which means it doesn't require a version bump or changelog entry.
+
+              **Use this label for:**
+              - Documentation updates
+              - Internal refactoring
+              - CI/CD changes
+              - Development tooling updates
+
+              If this PR should include a changeset, remove the \`no-changeset\` label and run:
+              \`\`\`bash
+              pnpm changeset
+              \`\`\`
+
+              ---
+              *This is an automated message from the Changeset Bot*`;
+
+              if (botComment) {
+                await github.rest.issues.updateComment({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  comment_id: botComment.id,
+                  body: message
+                });
+              } else {
+                await github.rest.issues.createComment({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  issue_number: prNumber,
+                  body: message
+                });
+              }
+            } else {
+              message = `## 📝 Changeset Status: ⚠️ Missing
+
+              This PR doesn't include a changeset file. Changesets help us:
+              - 📦 Automatically determine version bumps (major/minor/patch)
+              - 📝 Generate changelog entries
+              - 🚀 Streamline the release process
+
+              ### How to add a changeset
+
+              Run this command in your terminal:
+              \`\`\`bash
+              pnpm changeset
+              \`\`\`
+
+              Then follow the prompts to:
+              1. Select the type of change (major/minor/patch)
+              2. Write a brief description of your changes
+
+              Commit the generated file in \`.changeset/\` directory.
+
+              ### When is a changeset NOT needed?
+
+              If this PR doesn't require a version bump (docs, CI, internal changes), add the \`no-changeset\` label to this PR.
+
+              ### Need help?
+
+              Check our [Contributing Guide](https://github.com/${{ github.repository }}/blob/main/CONTRIBUTING.md) for detailed instructions.
+
+              ---
+              *This is an automated message from the Changeset Bot*`;
+
+              if (botComment) {
+                await github.rest.issues.updateComment({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  comment_id: botComment.id,
+                  body: message
+                });
+              } else {
+                await github.rest.issues.createComment({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  issue_number: prNumber,
+                  body: message
+                });
+              }
+            }
