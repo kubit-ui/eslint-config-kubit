@@ -1,7 +1,7 @@
 {
   "name": "eslint-config-kubit",
-  "description": "A comprehensive ESLint configuration package for TypeScript and React projects with opinionated best practices and code quality rules",
   "version": "1.6.0",
+  "description": "A comprehensive ESLint configuration package for TypeScript and React projects with opinionated best practices and code quality rules",
   "author": {
     "name": "Kubit Team",
     "email": "kubit@opendigitalservices.com",
