@@ -328,10 +328,15 @@ jobs:
               '**This PR is ready for review** - all validation checks passed!'
             }
 
-            ${expectedVersion ? `
-            ### 📦 Expected Release Impact
+            ### 📝 Don't Forget!
 
-            Based on branch name \`${branchName}\`, this PR will trigger a **${expectedVersion}** version bump when merged.` : ''}
+            This project uses **Changesets** for version management. Please add a changeset to your PR:
+
+            \`\`\`bash
+            pnpm changeset
+            \`\`\`
+
+            Or add the \`no-changeset\` label if this PR doesn't need a version bump (docs, CI, etc.).
 
             ---
 

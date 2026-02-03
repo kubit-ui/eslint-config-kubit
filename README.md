@@ -430,6 +430,12 @@ For detailed guidelines, see our [Contributing Guide](CONTRIBUTING.md).
 # Install dependencies
 pnpm install
 
+# Add a changeset (for version management)
+pnpm changeset
+
+# Check changeset status
+pnpm changeset:status
+
 # Link for local testing
 pnpm link --global
 
@@ -437,6 +443,15 @@ pnpm link --global
 cd /path/to/test-project
 pnpm link --global eslint-config-kubit
 ```
+
+### Release Process
+
+This project uses **Changesets** for automated releases:
+
+1. Contributors add changesets to their PRs
+2. A "Version Packages" PR is automatically created
+3. When merged, packages are published to NPM automatically
+4. Changelog is generated from changeset descriptions
 
 ## 📚 Documentation
 

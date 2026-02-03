@@ -42,36 +42,103 @@ This project follows the **fork-based contribution model** to:
    - Update documentation if necessary
    - Test your changes thoroughly using `pnpm test`
 
-6. **Commit Changes**: Use conventional commit messages for automatic versioning.
+6. **Add a Changeset**: This project uses Changesets for version management. Add a changeset to describe your changes:
 
    ```sh
+   pnpm changeset
+   ```
+
+   Follow the prompts to:
+   - Select the type of change (major/minor/patch)
+   - Write a brief description of your changes
+
+   This will create a file in `.changeset/` directory. Commit this file with your changes.
+
+   **When to skip changesets:**
+   - Documentation-only changes
+   - CI/CD configuration updates
+   - Internal refactoring without API changes
+
+   For these cases, add the `no-changeset` label to your PR.
+
+7. **Commit Changes**: Use conventional commit messages for clarity.
+
+   ```sh
+   git add .
    git commit -m "feat(rules): add new TypeScript specific eslint rules"
    ```
 
-7. **Keep Your Fork Updated**: Before pushing, sync with the upstream repository.
+8. **Keep Your Fork Updated**: Before pushing, sync with the upstream repository.
 
    ```sh
    git fetch upstream
    git rebase upstream/main
    ```
 
-8. **Push to Your Fork**: Push your changes to your forked repository (never to the original).
+9. **Push to Your Fork**: Push your changes to your forked repository (never to the original).
 
    ```sh
    git push origin <branch-name>
    ```
 
-9. **Open a Pull Request**:
-   - Go to the original [eslint-config-kubit repository](https://github.com/kubit-ui/eslint-config-kubit)
-   - Click "New pull request"
-   - Select "compare across forks"
-   - Choose your fork and branch as the source
-   - Fill out the PR template with details about your changes
-   - Submit the pull request for review
+10. **Open a Pull Request**:
+    - Go to the original [eslint-config-kubit repository](https://github.com/kubit-ui/eslint-config-kubit)
+    - Click "New pull request"
+    - Select "compare across forks"
+    - Choose your fork and branch as the source
+    - Fill out the PR template with details about your changes
+    - Submit the pull request for review
+
+### Version Management with Changesets
+
+This repository uses **[Changesets](https://github.com/changesets/changesets)** for version management and changelog generation. This provides a more flexible and collaborative approach to releases.
+
+#### How Changesets Work
+
+1. **Contributors add changesets** to their PRs describing the changes
+2. **Changesets bot** checks PRs and reminds you if a changeset is missing
+3. **Version Packages PR** is automatically created/updated with version bumps and changelog
+4. **When merged**, the package is automatically published to NPM
+
+#### Adding a Changeset
+
+After making your changes, run:
+
+```sh
+pnpm changeset
+```
+
+You'll be prompted to:
+
+1. **Select the type of change:**
+   - `major` - Breaking changes (e.g., removing deprecated rules, changing config structure)
+   - `minor` - New features (e.g., adding new ESLint rules, new configuration options)
+   - `patch` - Bug fixes (e.g., fixing rule conflicts, correcting documentation)
+
+2. **Write a summary** - Describe what changed and why (this appears in the changelog)
+
+Example changeset file (`.changeset/cool-feature.md`):
+
+```md
+---
+"eslint-config-kubit": minor
+---
+
+Add support for TypeScript 5.3 strict mode rules
+```
+
+#### When to Skip Changesets
+
+Add the `no-changeset` label to your PR if:
+
+- Documentation updates only
+- CI/CD configuration changes
+- Internal refactoring without API changes
+- Development tooling updates
 
 ### Branch Naming & Automatic Publishing
 
-This repository uses an **automatic publishing system** that determines the version bump based on your branch name and PR content. When your PR is merged, the package will be automatically published to NPM.
+While we use Changesets for version management, following branch naming conventions helps organize work:
 
 #### Branch Naming Patterns
 
