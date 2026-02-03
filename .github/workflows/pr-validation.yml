@@ -293,7 +293,7 @@ jobs:
             | **Branch Naming** | ${results.branch_valid ? '✅ Pass' : '❌ Fail'} | Must follow \`type/description\` pattern |
             | **PR Title** | ${results.title_valid ? '✅ Pass' : '❌ Fail'} | Must follow conventional commits |
             | **TypeScript** | ${results.typescript_valid ? '✅ Pass' : '❌ Fail'} | Type checking validation |
-            | **Tests** | ${results.tests_valid ? '✅ Pass' : '❌ Fail'} | All tests must pass |`;
+            | **Tests** | ${results.has_tests ? (results.tests_valid ? '✅ Pass' : '❌ Fail') : '⏭️ Skipped'} | ${results.has_tests ? 'All tests must pass' : 'No tests configured'} |`;
 
             if (results.code_changes) {
               report += `
