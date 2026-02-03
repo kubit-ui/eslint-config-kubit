@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.5.0
+
+### Minor Changes
+
+- **Include changeset**
+- **Include changeset**
+
 All notable changes to this project will be documented in this file.
 
 The format uses [Changesets](https://github.com/changesets/changesets) with a custom formatter for clean, professional changelog entries without technical noise.
