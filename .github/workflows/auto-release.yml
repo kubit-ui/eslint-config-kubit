@@ -135,6 +135,8 @@ jobs:
             echo "should_publish=true" >> $GITHUB_OUTPUT
           fi
         id: version
+        env:
+          GITHUB_TOKEN: ${{ secrets.RELEASE_TOKEN || secrets.GITHUB_TOKEN }}
 
       - name: Commit version changes
         if: steps.version.outputs.should_publish == 'true'
