@@ -1,5 +1,17 @@
 # Changelog
 
+## 1.4.0
+
+### Minor Changes
+
+- [`748b39a`](https://github.com/kubit-ui/eslint-config-kubit/commit/748b39a1f5efc7d7e506e92653e7094d9865a321) - feat(workflow): include changeset
+
+  PR #10 by @hectoruch
+
+- [`7f96017`](https://github.com/kubit-ui/eslint-config-kubit/commit/7f9601724182f7e81afb36fcb5d3c7530ee35fc6) - feat(workflow): include changeset
+
+  PR #9 by @hectoruch
+
 All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
