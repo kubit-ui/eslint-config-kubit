@@ -9,6 +9,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### 🚀 Added
 
+- **Automatic Changesets integration** - Fully automated version management and changelog generation
+- **Auto-release workflow** - Detects version bump from branch name, generates changeset, and publishes automatically
+- **Smart version detection** - Branch naming (feat/, fix/, break/) determines version bump type
 - **pnpm support** - Full migration to pnpm as the recommended package manager
 - **pnpm configuration** - New `.npmrc` file with optimized pnpm settings
 - **GitHub Actions cache** - Improved CI/CD performance with pnpm store caching
@@ -42,8 +45,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Changesets packages** - Added @changesets/cli and @changesets/changelog-github
 - **Changeset configuration** - Created .changeset/config.json with GitHub changelog integration
 - **Changeset scripts** - Added changeset, changeset:version, changeset:publish, changeset:status
-- **Release workflow** - New .github/workflows/release.yml for automated publishing
-- **Changeset bot** - New .github/workflows/changeset-bot.yml for PR validation
+- **Auto-release workflow** - New .github/workflows/auto-release.yml for fully automated publishing
+- **Version detection** - Automatic detection from branch naming patterns (feat/, fix/, break/)
+- **Auto-changeset generation** - Creates changesets automatically from PR title if not provided manually
+- **Manual workflows** - Moved release.yml and changeset-bot.yml to .manual/.optional for reference
 - **Deprecated workflow** - Renamed auto-publish.yml to auto-publish.yml.deprecated
 - **packageManager field** - Added `"packageManager": "pnpm@10.28.2"` to package.json
 - **Engine requirements** - Updated to require pnpm >= 9.0.0
