@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.6.0
+
+### Minor Changes
+
+- 5371dcf: include changeset
+
 ## 1.5.0
 
 ### Minor Changes
