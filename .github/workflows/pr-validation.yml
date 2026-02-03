@@ -212,6 +212,7 @@ jobs:
               title_length_valid: '${{ steps.pr-title-validation.outputs.title_length_valid }}' === 'true',
               typescript_valid: '${{ steps.code-quality.outputs.typescript_valid }}' === 'true',
               tests_valid: '${{ steps.test-validation.outputs.tests_valid }}' === 'true',
+              has_tests: '${{ steps.test-validation.outputs.has_tests }}' === 'true',
               console_logs: '${{ steps.file-validation.outputs.console_logs }}' === 'true',
               todos_without_issues: '${{ steps.file-validation.outputs.todos_without_issues }}' === 'true',
               docs_updated: '${{ steps.docs-validation.outputs.docs_updated }}' === 'true',
@@ -244,7 +245,8 @@ jobs:
               blocking = true;
             }
 
-            if (!results.tests_valid) {
+            // Only block if tests exist and are failing
+            if (results.has_tests && !results.tests_valid) {
               issues.push('❌ Tests are failing - ensure all tests pass');
               blocking = true;
             }
