@@ -42,99 +42,68 @@ This project follows the **fork-based contribution model** to:
    - Update documentation if necessary
    - Test your changes thoroughly using `pnpm test`
 
-6. **Add a Changeset**: This project uses Changesets for version management. Add a changeset to describe your changes:
-
-   ```sh
-   pnpm changeset
-   ```
-
-   Follow the prompts to:
-   - Select the type of change (major/minor/patch)
-   - Write a brief description of your changes
-
-   This will create a file in `.changeset/` directory. Commit this file with your changes.
-
-   **When to skip changesets:**
-   - Documentation-only changes
-   - CI/CD configuration updates
-   - Internal refactoring without API changes
-
-   For these cases, add the `no-changeset` label to your PR.
-
-7. **Commit Changes**: Use conventional commit messages for clarity.
+6. **Commit Changes**: Use conventional commit messages for clarity.
 
    ```sh
    git add .
    git commit -m "feat(rules): add new TypeScript specific eslint rules"
    ```
 
-8. **Keep Your Fork Updated**: Before pushing, sync with the upstream repository.
+7. **Keep Your Fork Updated**: Before pushing, sync with the upstream repository.
 
    ```sh
    git fetch upstream
    git rebase upstream/main
    ```
 
-9. **Push to Your Fork**: Push your changes to your forked repository (never to the original).
+8. **Push to Your Fork**: Push your changes to your forked repository (never to the original).
 
    ```sh
    git push origin <branch-name>
    ```
 
-10. **Open a Pull Request**:
-    - Go to the original [eslint-config-kubit repository](https://github.com/kubit-ui/eslint-config-kubit)
-    - Click "New pull request"
-    - Select "compare across forks"
-    - Choose your fork and branch as the source
-    - Fill out the PR template with details about your changes
-    - Submit the pull request for review
+9. **Open a Pull Request**:
+   - Go to the original [eslint-config-kubit repository](https://github.com/kubit-ui/eslint-config-kubit)
+   - Click "New pull request"
+   - Select "compare across forks"
+   - Choose your fork and branch as the source
+   - Fill out the PR template with details about your changes
+   - Submit the pull request for review
 
-### Version Management with Changesets
+### Automatic Version Management with Changesets
 
-This repository uses **[Changesets](https://github.com/changesets/changesets)** for version management and changelog generation. This provides a more flexible and collaborative approach to releases.
+This repository uses **[Changesets](https://github.com/changesets/changesets)** for automated version management and changelog generation.
 
-#### How Changesets Work
+#### How It Works (Fully Automatic)
 
-1. **Contributors add changesets** to their PRs describing the changes
-2. **Changesets bot** checks PRs and reminds you if a changeset is missing
-3. **Version Packages PR** is automatically created/updated with version bumps and changelog
-4. **When merged**, the package is automatically published to NPM
+1. **You create a PR** with proper branch naming (feat/, fix/, break/)
+2. **PR gets merged** to main
+3. **Workflow automatically:**
+   - Detects version bump type from branch name
+   - Generates changeset from PR title and description
+   - Updates package version
+   - Updates CHANGELOG.md
+   - Publishes to NPM
+   - Creates GitHub Release
+   - Comments on your PR with publish details
 
-#### Adding a Changeset
+#### Branch Naming Determines Version
 
-After making your changes, run:
+The version bump is automatically detected from your branch name:
+
+- `feat/` or `feature/` → **MINOR** version bump (new features)
+- `fix/` or `bugfix/` → **PATCH** version bump (bug fixes)
+- `break/` or `breaking/` → **MAJOR** version bump (breaking changes)
+
+#### Manual Changesets (Optional)
+
+If you want to manually create a changeset with a custom description:
 
 ```sh
 pnpm changeset
 ```
 
-You'll be prompted to:
-
-1. **Select the type of change:**
-   - `major` - Breaking changes (e.g., removing deprecated rules, changing config structure)
-   - `minor` - New features (e.g., adding new ESLint rules, new configuration options)
-   - `patch` - Bug fixes (e.g., fixing rule conflicts, correcting documentation)
-
-2. **Write a summary** - Describe what changed and why (this appears in the changelog)
-
-Example changeset file (`.changeset/cool-feature.md`):
-
-```md
----
-"eslint-config-kubit": minor
----
-
-Add support for TypeScript 5.3 strict mode rules
-```
-
-#### When to Skip Changesets
-
-Add the `no-changeset` label to your PR if:
-
-- Documentation updates only
-- CI/CD configuration changes
-- Internal refactoring without API changes
-- Development tooling updates
+This is optional - if you don't create one, it will be auto-generated from your PR title.
 
 ### Branch Naming & Automatic Publishing
 

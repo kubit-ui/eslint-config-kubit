@@ -422,6 +422,8 @@ We welcome contributions! This project uses **pnpm** for package management and 
 8. **Push**: `git push origin feat/amazing-feature`
 9. **Open a Pull Request** from your fork
 
+**Note:** This project uses [Changesets](https://github.com/changesets/changesets) for **automatic** version management. Just use proper branch naming (feat/, fix/, break/) and the rest is handled automatically!
+
 For detailed guidelines, see our [Contributing Guide](CONTRIBUTING.md).
 
 ### Development Commands
@@ -430,11 +432,8 @@ For detailed guidelines, see our [Contributing Guide](CONTRIBUTING.md).
 # Install dependencies
 pnpm install
 
-# Add a changeset (for version management)
+# Add a changeset (optional - auto-generated if not provided)
 pnpm changeset
-
-# Check changeset status
-pnpm changeset:status
 
 # Link for local testing
 pnpm link --global
@@ -444,14 +443,18 @@ cd /path/to/test-project
 pnpm link --global eslint-config-kubit
 ```
 
-### Release Process
+### Release Process (Fully Automatic)
 
 This project uses **Changesets** for automated releases:
 
-1. Contributors add changesets to their PRs
-2. A "Version Packages" PR is automatically created
-3. When merged, packages are published to NPM automatically
-4. Changelog is generated from changeset descriptions
+1. Create PR with proper branch naming (feat/, fix/, break/)
+2. PR gets merged to main
+3. **Automatically:**
+   - Version is bumped based on branch name
+   - CHANGELOG is updated
+   - Package is published to NPM
+   - GitHub Release is created
+   - PR is commented with publish details
 
 ## 📚 Documentation
 

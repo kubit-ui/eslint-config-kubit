@@ -330,15 +330,15 @@ jobs:
               '**This PR is ready for review** - all validation checks passed!'
             }
 
-            ### 📝 Don't Forget!
+            ### 📝 Automatic Release
 
-            This project uses **Changesets** for version management. Please add a changeset to your PR:
+            This project uses **Changesets** for automatic version management. When your PR is merged:
+            - Version will be bumped based on your branch name (feat/ = minor, fix/ = patch, break/ = major)
+            - CHANGELOG will be updated automatically
+            - Package will be published to NPM
+            - You'll get a comment with the published version
 
-            \`\`\`bash
-            pnpm changeset
-            \`\`\`
-
-            Or add the \`no-changeset\` label if this PR doesn't need a version bump (docs, CI, etc.).
+            No manual changeset needed - it's all automatic! 🚀
 
             ---
 
