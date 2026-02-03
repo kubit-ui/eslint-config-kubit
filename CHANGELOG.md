@@ -1,25 +1,22 @@
 # Changelog
 
+All notable changes to this project will be documented in this file.
+
+The format uses [Changesets](https://github.com/changesets/changesets) with a custom formatter for clean, professional changelog entries without technical noise.
+
 ## 1.4.0
 
 ### Minor Changes
 
-- [`748b39a`](https://github.com/kubit-ui/eslint-config-kubit/commit/748b39a1f5efc7d7e506e92653e7094d9865a321) - feat(workflow): include changeset
+- **Include changeset in workflow**
+  Automated version management and changelog generation
 
-  PR #10 by @hectoruch
+- **Include changeset in workflow**
+  Automated version management and changelog generation
 
-- [`7f96017`](https://github.com/kubit-ui/eslint-config-kubit/commit/7f9601724182f7e81afb36fcb5d3c7530ee35fc6) - feat(workflow): include changeset
+## 1.3.0
 
-  PR #9 by @hectoruch
-
-All notable changes to this project will be documented in this file.
-
-The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
-and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
-
-## [1.3.0]
-
-### 🚀 Added
+### Added
 
 - **Automatic Changesets integration** - Fully automated version management and changelog generation
 - **Auto-release workflow** - Detects version bump from branch name, generates changeset, and publishes automatically
@@ -32,7 +29,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Quick navigation** - Added navigation links in README header for better UX
 - **Stats section** - Improved badges and statistics display in README
 
-### 🔧 Changed
+### Changed
 
 - **Package manager** - Migrated from npm/yarn to pnpm (v10.28.2)
 - **Node.js version** - Updated workflows to use Node.js v22
@@ -44,18 +41,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Requirements section** - Clarified Node.js 18+ and pnpm 9+ requirements
 - **GitHub Actions examples** - Updated with pnpm setup and caching configuration
 
-### 🛠️ Improved
+### Improved
 
 - **Documentation quality** - More detailed examples and clearer instructions
 - **Developer experience** - Faster dependency installation with pnpm
 - **Build performance** - Optimized CI/CD pipelines with proper caching
-- **Code organization** - Better structured documentation with emojis and sections
+- **Code organization** - Better structured documentation with clear sections
 - **Related packages** - Added links to @kubit-ui-web/react-components and design-system
 
-### 📦 Technical Details
+### Technical Details
 
-- **Changesets packages** - Added @changesets/cli and @changesets/changelog-github
-- **Changeset configuration** - Created .changeset/config.json with GitHub changelog integration
+- **Changesets packages** - Added @changesets/cli for version management
+- **Custom changelog formatter** - Created .changeset/changelog-formatter.js for clean, professional changelog entries
+- **Changeset configuration** - Created .changeset/config.json with custom formatter integration
 - **Changeset scripts** - Added changeset, changeset:version, changeset:publish, changeset:status
 - **Auto-release workflow** - New .github/workflows/auto-release.yml for fully automated publishing
 - **Version detection** - Automatic detection from branch naming patterns (feat/, fix/, break/)
@@ -68,7 +66,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **.gitignore updates** - Added pnpm-specific ignore patterns
 - **Workflow caching** - Implemented pnpm store path caching in GitHub Actions
 
-## [1.2.0] - 2025-10-28
+## 1.2.0 - 2025-10-28
 
 ### Added
 
@@ -81,17 +79,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Configuration API enhancement** - Added `ignores` array parameter to the main configuration function
 - **Better ESLint flat config compliance** - Proper implementation of global ignores following ESLint 9.x standards
 
-## [1.0.1] - 2025-10-16
+## 1.0.1 - 2025-10-16
 
 ### Added
 
 - New workflow for review Pull Requests
 
-## [1.0.0] - 2025-10-15
+## 1.0.0 - 2025-10-15
 
-🎉 **Major Release** - Production Ready ESLint Configuration
+**Major Release** - Production Ready ESLint Configuration
 
-### 🚀 Added
+### Added
 
 - **Professional documentation** with detailed usage examples and configuration options
 - **Contributing guidelines** (`CONTRIBUTING.md`) for open source collaboration
@@ -104,7 +102,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Enhanced error handling** for configuration edge cases
 - **Simplified package structure** - Focused on essential files: `index.js`, `README.md`, `LICENSE`, and `CHANGELOG.md`
 
-### 🔧 Changed
+### Changed
 
 - **Complete code refactoring** with improved maintainability and readability
 - **Modular rule organization** using helper functions for better code structure
@@ -115,7 +113,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Updated documentation** with comprehensive examples and best practices
 - **Lightweight package** - No TypeScript definitions or test suite for faster installation
 
-### 🛠️ Fixed
+### Fixed
 
 - **Configuration loading issues** with proper parameter handling
 - **TypeScript integration** with correct parser and plugin configurations
@@ -124,7 +122,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Browser compatibility** checks working correctly
 - **Test suite** passing all scenarios
 
-### 📦 Technical Improvements
+### Technical Improvements
 
 - **ESLint 9.x flat config** full compatibility
 - **TypeScript 5.x** support with latest features
@@ -133,13 +131,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Prettier integration** with consistent formatting
 - **Performance optimizations** for large codebases
 
-### 🔒 Security
+### Security
 
 - **Updated all dependencies** to latest secure versions
 - **Removed vulnerable packages** and replaced with secure alternatives
 - **Enhanced security rules** for preventing common vulnerabilities
 
-### 📚 Documentation
+### Documentation
 
 - **Complete README rewrite** with examples and best practices
 - **Comprehensive usage documentation** with practical examples
@@ -147,7 +145,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Changelog** following standard conventions
 - **License clarification** with Apache 2.0
 
-### 📋 Configuration
+### Configuration
 
 - **Comprehensive ESLint rules** covering all major use cases
 - **Plugin integration** for enhanced code quality
