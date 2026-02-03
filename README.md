@@ -1,27 +1,21 @@
 # Kubit ESLint Configuration
 
-[![npm version](https://badge.fury.io/js/eslint-config-kubit.svg)](https://badge.fury.io/js/eslint-config-kubit)
+<div align="center">
+
+[![npm version](https://img.shields.io/npm/v/eslint-config-kubit.svg)](https://www.npmjs.com/package/eslint-config-kubit)
+[![npm downloads](https://img.shields.io/npm/dm/eslint-config-kubit.svg)](https://www.npmjs.com/package/eslint-config-kubit)
 [![License: Apache-2.0](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
+[![CI Status](https://github.com/kubit-ui/eslint-config-kubit/actions/workflows/pr-validation.yml/badge.svg)](https://github.com/kubit-ui/eslint-config-kubit/actions)
 
+**A comprehensive and opinionated ESLint configuration package for TypeScript and React projects**
 
-**Requirements:**
+Designed to enforce best practices, code quality, and accessibility standards.
 
-- Node.js >= 18.0.0
-- npm >= 8.0.0
+[Installation](#-installation) • [Quick Start](#-quick-start) • [Configuration](#️-configuration-options) • [Documentation](#-documentation) • [Contributing](CONTRIBUTING.md)
 
-**Contributing:**
+</div>
 
-We welcome contributions! Please see our [Contributing Guide](CONTRIBUTING.md) for details.
-
-1. Fork the repository
-2. Create a feature branch: `git checkout -b feature/amazing-feature`
-3. Make your changes to the ESLint configuration in `index.js`
-4. Test your changes with a sample project
-5. Commit your changes: `git commit -m 'Add amazing feature'`
-6. Push to the branch: `git push origin feature/amazing-feature`
-7. Open a Pull Requests://github.com/kubit-ui/eslint-config-kubit/actions)
-
-A comprehensive and opinionated ESLint configuration package for TypeScript and React projects, designed to enforce best practices, code quality, and accessibility standards.
+---
 
 ## ✨ Features
 
@@ -35,27 +29,28 @@ A comprehensive and opinionated ESLint configuration package for TypeScript and 
 - **📦 Import Management**: Smart import sorting and organization
 - **🔍 Code Quality**: Advanced rules for code complexity and best practices
 
-## 🚀 Quick Start
+## 📋 Requirements
 
-### Installation
+- **Node.js**: >= 18.0.0 (recommended: 22.x)
+- **pnpm**: >= 9.0.0 (recommended: 10.28.2)
+- **ESLint**: >= 9.0.0
+
+## 📦 Installation
 
 Install the package and its peer dependencies:
 
 ```bash
+# Using pnpm (recommended)
+pnpm add -D eslint eslint-config-kubit
+
+# Using npm
 npm install --save-dev eslint eslint-config-kubit
-```
 
-**Using Yarn:**
-
-```bash
+# Using yarn
 yarn add --dev eslint eslint-config-kubit
 ```
 
-**Using pnpm:**
-
-```bash
-pnpm add -D eslint eslint-config-kubit
-```
+## 🚀 Quick Start
 
 ### Basic Usage
 
@@ -66,6 +61,8 @@ const eslintConfigKubit = require("eslint-config-kubit");
 
 module.exports = eslintConfigKubit();
 ```
+
+That's it! You now have a fully configured ESLint setup with TypeScript, React, and accessibility support.
 
 ### Advanced Configuration
 
@@ -262,7 +259,7 @@ module.exports = eslintConfigKubit({
 });
 ```
 
-## �️ Development Setup
+## 🛠️ Development Setup
 
 ### Usage in Your Project
 
@@ -272,9 +269,23 @@ Add linting scripts to your `package.json`:
 {
   "scripts": {
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
-    "lint:fix": "eslint . --ext .js,.jsx,.ts,.tsx --fix"
+    "lint:fix": "eslint . --ext .js,.jsx,.ts,.tsx --fix",
+    "lint:cache": "eslint . --ext .js,.jsx,.ts,.tsx --cache"
   }
 }
+```
+
+Then run:
+
+```bash
+# Check for linting errors
+pnpm lint
+
+# Automatically fix linting errors
+pnpm lint:fix
+
+# Use cache for faster linting
+pnpm lint:cache
 ```
 
 ### VS Code Integration
@@ -318,14 +329,29 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+
       - uses: actions/setup-node@v4
         with:
-          node-version: "18"
-          cache: "npm"
+          node-version: "22"
+          registry-url: "https://registry.npmjs.org"
 
-      - run: npm ci
-      - run: npm run lint
-      - run: npm run type-check
+      - uses: pnpm/action-setup@v4
+
+      - name: Get pnpm store directory
+        shell: bash
+        run: |
+          echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_ENV
+
+      - uses: actions/cache@v4
+        with:
+          path: ${{ env.STORE_PATH }}
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-store-
+
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm lint
+      - run: pnpm type-check
 ```
 
 ## �📋 Included Rules
@@ -380,28 +406,53 @@ module.exports = eslintConfigKubit();
 - Better default values for all options
 - Improved TypeScript integration
 
-## �🛠️ Development
+## 🤝 Contributing
 
-### Requirements
+We welcome contributions! This project uses **pnpm** for package management and follows a fork-based contribution workflow.
 
-- Node.js >= 18.0.0
-- npm >= 8.0.0
+### Quick Contribution Guide
 
-### Contributing
+1. **Fork** the repository
+2. **Clone** your fork: `git clone https://github.com/YOUR_USERNAME/eslint-config-kubit.git`
+3. **Install dependencies**: `pnpm install`
+4. **Create a branch**: `git checkout -b feat/amazing-feature`
+5. **Make your changes** to the ESLint configuration
+6. **Test thoroughly** with sample projects
+7. **Commit**: `git commit -m 'feat(rules): add amazing feature'`
+8. **Push**: `git push origin feat/amazing-feature`
+9. **Open a Pull Request** from your fork
 
-We welcome contributions! Please see our [Contributing Guide](CONTRIBUTING.md) for details.
+For detailed guidelines, see our [Contributing Guide](CONTRIBUTING.md).
 
-1. Fork the repository
-2. Create a feature branch: `git checkout -b feature/amazing-feature`
-3. Commit your changes: `git commit -m 'Add amazing feature'`
-4. Push to the branch: `git push origin feature/amazing-feature`
-5. Open a Pull Request
+### Development Commands
+
+```bash
+# Install dependencies
+pnpm install
+
+# Link for local testing
+pnpm link --global
+
+# Test in another project
+cd /path/to/test-project
+pnpm link --global eslint-config-kubit
+```
+
+## 📚 Documentation
+
+- [Full Documentation](https://www.kubit-ui.com/)
+- [Contributing Guide](CONTRIBUTING.md)
+- [Code of Conduct](CODE_OF_CONDUCT.md)
+- [Security Policy](SECURITY.md)
+- [Changelog](CHANGELOG.md)
 
 ## 📖 Related Packages
 
-- [eslint](https://eslint.org/) - The core ESLint linting library
-- [typescript](https://www.typescriptlang.org/) - TypeScript compiler
-- [prettier](https://prettier.io/) - Code formatter
+- **[@kubit-ui-web/react-components](https://www.npmjs.com/package/@kubit-ui-web/react-components)** - Kubit React component library
+- **[@kubit-ui-web/design-system](https://www.npmjs.com/package/@kubit-ui-web/design-system)** - Kubit design system
+- **[eslint](https://eslint.org/)** - The core ESLint linting library
+- **[typescript](https://www.typescriptlang.org/)** - TypeScript compiler
+- **[prettier](https://prettier.io/)** - Code formatter
 
 ## 📄 License
 
@@ -455,11 +506,12 @@ module.exports = eslintConfigKubit({
 
 ## 🎯 Roadmap
 
-- [ ] **ESLint 10.x** compatibility when released
-- [ ] **Additional framework support** (Vue, Svelte)
-- [ ] **Custom rule presets** for different project types
-- [ ] **IDE extensions** for better integration
-- [ ] **Performance optimizations** for large codebases
+- [ ] ESLint 10.x compatibility when released
+- [ ] Additional framework support (Vue, Svelte)
+- [ ] Custom rule presets for different project types
+- [ ] Performance optimizations for large codebases
+- [ ] Enhanced TypeScript 5.x support
+- [ ] Improved monorepo configurations
 
 ## 🤝 Support
 
@@ -470,10 +522,22 @@ module.exports = eslintConfigKubit({
 
 ## 📈 Stats
 
-![npm](https://img.shields.io/npm/dt/eslint-config-kubit)
-![GitHub stars](https://img.shields.io/github/stars/kubit-ui/eslint-config-kubit)
-![GitHub forks](https://img.shields.io/github/forks/kubit-ui/eslint-config-kubit)
+<div align="center">
+
+![npm downloads](https://img.shields.io/npm/dt/eslint-config-kubit?style=flat-square)
+![npm version](https://img.shields.io/npm/v/eslint-config-kubit?style=flat-square)
+![GitHub stars](https://img.shields.io/github/stars/kubit-ui/eslint-config-kubit?style=flat-square)
+![GitHub forks](https://img.shields.io/github/forks/kubit-ui/eslint-config-kubit?style=flat-square)
+![License](https://img.shields.io/github/license/kubit-ui/eslint-config-kubit?style=flat-square)
+
+</div>
 
 ---
 
+<div align="center">
+
 **Made with ❤️ by the [Kubit Team](https://www.kubit-ui.com/)**
+
+If this project helped you, please consider giving it a ⭐ on [GitHub](https://github.com/kubit-ui/eslint-config-kubit)!
+
+</div>

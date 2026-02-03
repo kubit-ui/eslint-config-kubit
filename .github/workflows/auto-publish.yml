@@ -43,8 +43,24 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: "20"
+          node-version: "22"
           registry-url: "https://registry.npmjs.org"
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+
+      - name: Get pnpm store directory
+        shell: bash
+        run: |
+          echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_ENV
+
+      - name: Setup pnpm cache
+        uses: actions/cache@v4
+        with:
+          path: ${{ env.STORE_PATH }}
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-store-
 
       - name: Validate branch patterns
         id: validate-branch
@@ -64,7 +80,7 @@ jobs:
 
       - name: Install dependencies
         if: steps.validate-branch.outputs.should_publish == 'true'
-        run: npm install
+        run: pnpm install --frozen-lockfile
 
       - name: Validate package integrity
         if: steps.validate-branch.outputs.should_publish == 'true'
@@ -200,14 +216,10 @@ jobs:
           REASON="${{ steps.version-bump.outputs.reason }}"
 
           # Update package.json
-          npm version $NEW_VERSION --no-git-tag-version
+          pnpm version $NEW_VERSION --no-git-tag-version
 
           # Commit and tag
-          git add package.json
-          # Add lock file if it exists
-          if [ -f "package-lock.json" ]; then
-            git add package-lock.json
-          fi
+          git add package.json pnpm-lock.yaml
           git commit -m "chore(release): $NEW_VERSION
 
           Released from: $BRANCH_NAME
@@ -222,7 +234,7 @@ jobs:
         if: steps.validate-branch.outputs.should_publish == 'true'
         run: |
           echo "Performing dry run..."
-          npm publish --dry-run --access public
+          pnpm publish --dry-run --access public --no-git-checks
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
@@ -237,9 +249,9 @@ jobs:
 
           if [[ "$VERSION_TYPE" == "major" ]]; then
             echo "Publishing MAJOR version $NEW_VERSION"
-            npm publish --access public --tag latest
+            pnpm publish --access public --tag latest --no-git-checks
           else
-            npm publish --access public --tag latest
+            pnpm publish --access public --tag latest --no-git-checks
           fi
 
           echo "Successfully published to NPM"
@@ -288,6 +300,8 @@ jobs:
             ```bash
             npm install eslint-config-kubit@${{ steps.version-bump.outputs.new_version }}
             # or
+            pnpm add eslint-config-kubit@${{ steps.version-bump.outputs.new_version }}
+            # or
             yarn add eslint-config-kubit@${{ steps.version-bump.outputs.new_version }}
             ```
 
@@ -333,6 +347,8 @@ jobs:
             ### 📦 Installation
             \`\`\`bash
             npm install eslint-config-kubit@${new_version}
+            # or
+            pnpm add eslint-config-kubit@${new_version}
             # or
             yarn add eslint-config-kubit@${new_version}
             \`\`\`
