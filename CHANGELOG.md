@@ -5,6 +5,46 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.3.0]
+
+### 🚀 Added
+
+- **pnpm support** - Full migration to pnpm as the recommended package manager
+- **pnpm configuration** - New `.npmrc` file with optimized pnpm settings
+- **GitHub Actions cache** - Improved CI/CD performance with pnpm store caching
+- **Enhanced documentation** - Comprehensive updates to README.md and CONTRIBUTING.md
+- **Development guidelines** - Detailed setup instructions for contributors using pnpm
+- **Quick navigation** - Added navigation links in README header for better UX
+- **Stats section** - Improved badges and statistics display in README
+
+### 🔧 Changed
+
+- **Package manager** - Migrated from npm/yarn to pnpm (v10.28.2)
+- **Node.js version** - Updated workflows to use Node.js v22
+- **Workflows updated** - Both `auto-publish.yml` and `pr-validation.yml` now use pnpm
+- **Installation commands** - All documentation updated to recommend pnpm first
+- **CI/CD optimization** - Implemented pnpm store caching for faster builds
+- **README structure** - Reorganized with centered header, better sections, and improved navigation
+- **Contributing guide** - Enhanced with pnpm-specific instructions and development setup
+- **Requirements section** - Clarified Node.js 18+ and pnpm 9+ requirements
+- **GitHub Actions examples** - Updated with pnpm setup and caching configuration
+
+### 🛠️ Improved
+
+- **Documentation quality** - More detailed examples and clearer instructions
+- **Developer experience** - Faster dependency installation with pnpm
+- **Build performance** - Optimized CI/CD pipelines with proper caching
+- **Code organization** - Better structured documentation with emojis and sections
+- **Related packages** - Added links to @kubit-ui-web/react-components and design-system
+
+### 📦 Technical Details
+
+- **packageManager field** - Added `"packageManager": "pnpm@10.28.2"` to package.json
+- **Engine requirements** - Updated to require pnpm >= 9.0.0
+- **Lock file** - Replaced yarn.lock and package-lock.json with pnpm-lock.yaml
+- **.gitignore updates** - Added pnpm-specific ignore patterns
+- **Workflow caching** - Implemented pnpm store path caching in GitHub Actions
+
 ## [1.2.0] - 2025-10-28
 
 ### Added

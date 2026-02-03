@@ -30,23 +30,30 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: "20"
+          node-version: "22"
           registry-url: "https://registry.npmjs.org"
 
-      - name: Setup Yarn and dependencies
-        run: |
-          corepack enable
-          yarn --version
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
 
-          # Check if yarn.lock exists and install accordingly
-          if [ -f "yarn.lock" ]; then
-            echo "yarn.lock found - installing with frozen lockfile"
-            yarn install --frozen-lockfile --prefer-offline
-          else
-            echo "No yarn.lock found - running fresh install"
-            yarn install
-            echo "Dependencies installed and lockfile generated"
-          fi
+      - name: Get pnpm store directory
+        shell: bash
+        run: |
+          echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_ENV
+
+      - name: Setup pnpm cache
+        uses: actions/cache@v4
+        with:
+          path: ${{ env.STORE_PATH }}
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-store-
+
+      - name: Install dependencies
+        run: |
+          echo "Installing dependencies with pnpm..."
+          pnpm --version
+          pnpm install --frozen-lockfile
 
       - name: Validate Branch Naming
         id: branch-validation
@@ -102,9 +109,9 @@ jobs:
           echo "Running code quality checks..."
 
           # TypeScript type checking
-          if yarn run --help | grep -q "type-check"; then
+          if pnpm run --help | grep -q "type-check"; then
             echo "Running TypeScript checks..."
-            if yarn type-check; then
+            if pnpm type-check; then
               echo "✅ TypeScript checks passed"
               echo "typescript_valid=true" >> $GITHUB_OUTPUT
             else
@@ -122,8 +129,8 @@ jobs:
         run: |
           echo "Running tests..."
 
-          if yarn run --help | grep -q "test"; then
-            if yarn test; then
+          if pnpm run --help | grep -q "test"; then
+            if pnpm test; then
               echo "✅ Tests passed"
               echo "tests_valid=true" >> $GITHUB_OUTPUT
             else
@@ -286,7 +293,7 @@ jobs:
             | **Branch Naming** | ${results.branch_valid ? '✅ Pass' : '❌ Fail'} | Must follow \`type/description\` pattern |
             | **PR Title** | ${results.title_valid ? '✅ Pass' : '❌ Fail'} | Must follow conventional commits |
             | **TypeScript** | ${results.typescript_valid ? '✅ Pass' : '❌ Fail'} | Type checking validation |
-            | **Tests** | ${results.tests_valid ? '✅ Pass' : '❌ Fail'} | All tests must pass |`;
+            | **Tests** | ${results.has_tests ? (results.tests_valid ? '✅ Pass' : '❌ Fail') : '⏭️ Skipped'} | ${results.has_tests ? 'All tests must pass' : 'No tests configured'} |`;
 
             if (results.code_changes) {
               report += `
