@@ -95,27 +95,29 @@ jobs:
 
       - name: Auto-generate changeset
         if: steps.check-changesets.outputs.has_changeset == 'false'
+        env:
+          PR_TITLE: ${{ github.event.pull_request.title }}
+          PR_BODY: ${{ github.event.pull_request.body }}
         run: |
           VERSION_TYPE="${{ steps.detect-version.outputs.version_type }}"
-          PR_TITLE="${{ github.event.pull_request.title }}"
           PR_NUMBER="${{ github.event.pull_request.number }}"
           PR_AUTHOR="${{ github.event.pull_request.user.login }}"
-          PR_BODY="${{ github.event.pull_request.body }}"
 
           # Clean up PR title - remove conventional commit prefix for cleaner changelog
           CLEAN_TITLE=$(echo "$PR_TITLE" | sed -E 's/^(feat|fix|docs|style|refactor|perf|test|chore|build|ci|break|breaking)(\(.+?\))?:\s*//i')
 
           # Extract first line of PR body as description (if exists)
-          DESCRIPTION=$(echo "$PR_BODY" | head -n 1 | sed 's/^[#*-]\s*//')
+          # Using env variable to avoid shell interpretation issues
+          DESCRIPTION=$(echo "$PR_BODY" | head -n 1 | sed 's/^[#*-]\s*//' | tr -d '\r')
 
           # Create changeset content with better formatting
           cat > .changeset/auto-pr-${PR_NUMBER}.md << EOF
-          ---
-          "eslint-config-kubit": ${VERSION_TYPE}
-          ---
+---
+"eslint-config-kubit": ${VERSION_TYPE}
+---
 
-          ${CLEAN_TITLE}
-          EOF
+${CLEAN_TITLE}
+EOF
 
           # Add description if it's meaningful (not empty, not a template marker)
           if [ -n "$DESCRIPTION" ] && [ "$DESCRIPTION" != "## Description" ] && [ "$DESCRIPTION" != "Description" ]; then
