@@ -1,5 +1,16 @@
 # Changelog
 
+## 2.0.1
+
+### Patch Changes
+
+- **Fix ESLint 10 compatibility issue with `no-relative-import-paths` rule**
+  - Created local patched version of `eslint-plugin-no-relative-import-paths` compatible with ESLint 10
+  - Replaced deprecated `context.getCwd()` with `context.cwd`
+  - Replaced deprecated `context.getFilename()` with `context.filename`
+  - Resolves `TypeError: context.getCwd is not a function` error
+  - Added `no-relative-import-paths-compat.js` to package files
+
 ## 2.0.0
 
 ### Major Changes

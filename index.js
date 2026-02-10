@@ -19,7 +19,7 @@ const jest = require("eslint-plugin-jest");
 
 // Kubit and custom plugins
 const noIndexImportEslint = require("@kubit-ui-web/eslint-plugin-no-index-import");
-const noRelativeImportPathsEslint = require("eslint-plugin-no-relative-import-paths");
+const noRelativeImportPathsEslint = require("./no-relative-import-paths-compat");
 
 // Additional plugins
 const compatEslint = require("eslint-plugin-compat");

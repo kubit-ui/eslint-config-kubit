@@ -53,9 +53,6 @@ importers:
       eslint-plugin-n:
         specifier: ^17.23.2
         version: 17.23.2(eslint@10.0.0)(typescript@5.9.3)
-      eslint-plugin-no-relative-import-paths:
-        specifier: ^1.6.1
-        version: 1.6.1
       eslint-plugin-perfectionist:
         specifier: ^5.5.0
         version: 5.5.0(eslint@10.0.0)(typescript@5.9.3)
@@ -1094,9 +1091,6 @@ packages:
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
     peerDependencies:
       eslint: '>=8.23.0'
-
-  eslint-plugin-no-relative-import-paths@1.6.1:
-    resolution: {integrity: sha512-YZNeOnsOrJcwhFw0X29MXjIzu2P/f5X2BZDPWw1R3VUYBRFxNIh77lyoL/XrMU9ewZNQPcEvAgL/cBOT1P330A==}
 
   eslint-plugin-perfectionist@5.5.0:
     resolution: {integrity: sha512-lZX2KUpwOQf7J27gAg/6vt8ugdPULOLmelM8oDJPMbaN7P2zNNeyS9yxGSmJcKX0SF9qR/962l9RWM2Z5jpPzg==}
@@ -3252,8 +3246,6 @@ snapshots:
       ts-declaration-location: 1.0.7(typescript@5.9.3)
     transitivePeerDependencies:
       - typescript
-
-  eslint-plugin-no-relative-import-paths@1.6.1: {}
 
   eslint-plugin-perfectionist@5.5.0(eslint@10.0.0)(typescript@5.9.3):
     dependencies:
