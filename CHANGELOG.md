@@ -1,5 +1,28 @@
 # Changelog
 
+## 2.0.0
+
+### Major Changes
+
+**BREAKING CHANGES:**
+
+- **Require Node.js >=20.19.0** (previously >=18.0.0)
+- **Require ESLint ^10.0.0** (previously ^9.0.0)
+- **Remove obsolete JSX tracking rules** (`react/jsx-uses-react`, `react/jsx-uses-vars`)
+
+### Changes
+
+- Add comprehensive MIGRATION.md guide
+- Update package.json to v2.0.0
+- Update README.md with new requirements
+- ESLint 10 now automatically tracks JSX references
+
+### Benefits
+
+- Better JSX reference tracking eliminates false positives in `no-unused-vars`
+- Performance improvements from ESLint 10
+- Enhanced TypeScript integration with latest parser versions
+
 ## 1.7.1
 
 ### Patch Changes
