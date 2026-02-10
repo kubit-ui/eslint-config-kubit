@@ -11,7 +11,7 @@
 
 Designed to enforce best practices, code quality, and accessibility standards.
 
-[Installation](#-installation) • [Quick Start](#-quick-start) • [Configuration](#️-configuration-options) • [Documentation](#-documentation) • [Contributing](CONTRIBUTING.md)
+[Installation](#-installation) • [Quick Start](#-quick-start) • [Configuration](#️-configuration-options) • [Migration Guide](MIGRATION.md) • [Documentation](#-documentation) • [Contributing](CONTRIBUTING.md)
 
 </div>
 
@@ -31,9 +31,9 @@ Designed to enforce best practices, code quality, and accessibility standards.
 
 ## 📋 Requirements
 
-- **Node.js**: >= 18.0.0 (recommended: 22.x)
-- **pnpm**: >= 9.0.0 (recommended: 10.28.2)
-- **ESLint**: >= 9.0.0
+- **Node.js**: >= 20.19.0 (recommended: 22.x)
+- **pnpm**: >= 9.0.0 (recommended: 10.29.2)
+- **ESLint**: >= 10.0.0
 
 ## 📦 Installation
 
@@ -49,6 +49,10 @@ npm install --save-dev eslint eslint-config-kubit
 # Using yarn
 yarn add --dev eslint eslint-config-kubit
 ```
+
+## Upgrading from v1.x?
+
+See the [Migration Guide](./MIGRATION.md) for detailed instructions on upgrading to v2.0 with ESLint 10 support.
 
 ## 🚀 Quick Start
 

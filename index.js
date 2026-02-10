@@ -116,8 +116,8 @@ module.exports = (options = {}) => {
     "react/jsx-key": "error",
     "react/jsx-no-comment-textnodes": "error",
     "react/jsx-no-undef": "error",
-    "react/jsx-uses-react": "error",
-    "react/jsx-uses-vars": "error",
+    // Note: jsx-uses-react and jsx-uses-vars are no longer needed in ESLint 10+
+    // ESLint 10 now automatically tracks JSX references
     "react/jsx-wrap-multilines": "error",
 
     // JSX formatting rules
