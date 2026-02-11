@@ -1,5 +1,8 @@
 // ESLint flat config doesn't require defineConfig import for module exports
 
+// ESLint compatibility utilities for v10
+const { fixupPluginRules } = require("@eslint/compat");
+
 // Core ESLint and TypeScript
 const eslintParser = require("@typescript-eslint/parser");
 const eslint = require("@eslint/js");
@@ -317,18 +320,20 @@ module.exports = (options = {}) => {
       plugins: {
         typescriptEslint,
         ...(isReact && {
-          react,
-          reactHooksEslint,
-          "jsx-a11y": jsxAccessibilityEslint,
+          react: fixupPluginRules(react),
+          reactHooksEslint: fixupPluginRules(reactHooksEslint),
+          "jsx-a11y": fixupPluginRules(jsxAccessibilityEslint),
         }),
-        import: importEslint,
-        prettier,
-        "unused-imports": unusedImportsEslint,
-        jest,
-        "@kubit-ui-web/no-index-import": noIndexImportEslint,
-        "no-relative-import-paths": noRelativeImportPathsEslint,
-        compat: compatEslint,
-        perfectionist,
+        import: fixupPluginRules(importEslint),
+        prettier: fixupPluginRules(prettier),
+        "unused-imports": fixupPluginRules(unusedImportsEslint),
+        jest: fixupPluginRules(jest),
+        "@kubit-ui-web/no-index-import": fixupPluginRules(noIndexImportEslint),
+        "no-relative-import-paths": fixupPluginRules(
+          noRelativeImportPathsEslint,
+        ),
+        compat: fixupPluginRules(compatEslint),
+        perfectionist: fixupPluginRules(perfectionist),
         ...(additionalPlugins || {}),
       },
       settings: {
