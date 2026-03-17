@@ -62,9 +62,9 @@ jobs:
 
       - name: Install dependencies
         run: |
-          echo "Installing dependencies with pnpm..."
-          pnpm --version
-          pnpm install --frozen-lockfile
+          echo "Installing dependencies with yarn..."
+          yarn --version
+          yarn install --immutable
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
@@ -148,7 +148,7 @@ jobs:
       - name: Publish to NPM
         run: |
           echo "🚀 Publishing to NPM..."
-          pnpm changeset publish
+          yarn changeset publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
