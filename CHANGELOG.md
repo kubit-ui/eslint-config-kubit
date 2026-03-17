@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.0.4
+
+### Patch Changes
+
+- **Update dependencies to yarn and oxc ecosystem** ([#18](https://github.com/kubit-ui/eslint-config-kubit/pull/18))
+
 ## 2.0.1
 
 ### Patch Changes
