@@ -131,7 +131,7 @@ jobs:
 
           if grep -q '"test"' package.json; then
             echo "has_tests=true" >> $GITHUB_OUTPUT
-            if yarn test; then
+            if pnpm test; then
               echo "✅ Tests passed"
               echo "tests_valid=true" >> $GITHUB_OUTPUT
             else
