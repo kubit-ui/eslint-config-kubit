@@ -110,7 +110,7 @@ jobs:
           echo "Running code quality checks..."
 
           # TypeScript type checking
-          if yarn run --help 2>/dev/null | grep -q "typecheck" || true; then
+          if grep -q '"typecheck"' package.json; then
             echo "Running TypeScript checks..."
             if yarn typecheck; then
               echo "✅ TypeScript checks passed"
@@ -120,7 +120,7 @@ jobs:
               echo "typescript_valid=false" >> $GITHUB_OUTPUT
             fi
           else
-            echo "⚠️ No type-check script found"
+            echo "⚠️ No typecheck script found - skipping"
             echo "typescript_valid=true" >> $GITHUB_OUTPUT
           fi
 
@@ -130,7 +130,8 @@ jobs:
         run: |
           echo "Running tests..."
 
-          if true; then
+          if grep -q '"test"' package.json; then
+            echo "has_tests=true" >> $GITHUB_OUTPUT
             if yarn test; then
               echo "✅ Tests passed"
               echo "tests_valid=true" >> $GITHUB_OUTPUT
@@ -139,7 +140,8 @@ jobs:
               echo "tests_valid=false" >> $GITHUB_OUTPUT
             fi
           else
-            echo "⚠️ No test script found"
+            echo "⚠️ No test script found - skipping"
+            echo "has_tests=false" >> $GITHUB_OUTPUT
             echo "tests_valid=true" >> $GITHUB_OUTPUT
           fi
 
