@@ -1,23 +1,32 @@
-name: Auto Release with Changesets
+name: Release Production with Changesets
 
-# This workflow automatically creates changesets and publishes on merge to main
-# It combines the automation of the old system with Changesets' changelog generation
+# This workflow publishes production releases when PRs are merged to main
+# It uses Changesets to manage versioning and publishing
+# It automatically detects version bump type from commits:
+# - feat: ... → MINOR version bump
+# - fix: ... → PATCH version bump
+# - break/breaking/feat!: ... → MAJOR version bump
+#
+# Required secrets:
+# 1. NPM_TOKEN: NPM automation token for publishing packages
+# 2. RELEASE_TOKEN: GitHub PAT with bypass permissions
 
 on:
   pull_request:
     types: [closed]
     branches:
       - main
+      - master
 
 permissions:
   contents: write
   pull-requests: write
   packages: write
-  id-token: write
+  actions: read
+  id-token: write # Required for NPM provenance
 
 jobs:
   auto-release:
-    name: Auto Release
     if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
 
@@ -31,8 +40,8 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: "22"
-          registry-url: "https://registry.npmjs.org"
+          node-version: '22'
+          registry-url: 'https://registry.npmjs.org'
 
       - name: Enable Corepack
         run: corepack enable
@@ -53,186 +62,135 @@ jobs:
 
       - name: Install dependencies
         run: |
-          yarn --version
-          yarn install --immutable
-
-      - name: Configure Git
-        run: |
-          git config --local user.email "kubit-bot@github.com"
-          git config --local user.name "Kubit Release Bot"
-
-      - name: Detect version bump type
-        id: detect-version
-        run: |
-          BRANCH_NAME="${{ github.event.pull_request.head.ref }}"
-          PR_TITLE="${{ github.event.pull_request.title }}"
-
-          echo "Branch: $BRANCH_NAME"
-          echo "PR Title: $PR_TITLE"
-
-          # Detect from branch name
-          if [[ "$BRANCH_NAME" =~ ^(break|breaking)/ ]] || [[ "$PR_TITLE" =~ ^(break|breaking): ]]; then
-            VERSION_TYPE="major"
-          elif [[ "$BRANCH_NAME" =~ ^(feat|feature)/ ]] || [[ "$PR_TITLE" =~ ^feat: ]]; then
-            VERSION_TYPE="minor"
-          else
-            VERSION_TYPE="patch"
-          fi
-
-          echo "version_type=$VERSION_TYPE" >> $GITHUB_OUTPUT
-          echo "✅ Detected version bump: $VERSION_TYPE"
-
-      - name: Check for existing changesets
-        id: check-changesets
-        run: |
-          # Check if PR already has changesets
-          CHANGESET_FILES=$(git diff --name-only origin/main...HEAD | grep '^.changeset/.*\.md$' | grep -v 'README.md' || true)
-
-          if [ -n "$CHANGESET_FILES" ]; then
-            echo "has_changeset=true" >> $GITHUB_OUTPUT
-            echo "✅ PR already has changeset(s)"
-          else
-            echo "has_changeset=false" >> $GITHUB_OUTPUT
-            echo "⚠️ No changeset found, will create automatically"
-          fi
-
-      - name: Auto-generate changeset
-        if: steps.check-changesets.outputs.has_changeset == 'false'
+          echo "Installing dependencies with pnpm..."
+          pnpm --version
+          pnpm install --frozen-lockfile
         env:
-          PR_TITLE: ${{ github.event.pull_request.title }}
-          PR_BODY: ${{ github.event.pull_request.body }}
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: Detect version bump type from commits
+        id: detect
         run: |
-          VERSION_TYPE="${{ steps.detect-version.outputs.version_type }}"
-          PR_NUMBER="${{ github.event.pull_request.number }}"
-          PR_AUTHOR="${{ github.event.pull_request.user.login }}"
+          BASE_REF="origin/${{ github.event.pull_request.base.ref }}"
 
-          # Clean up PR title - remove conventional commit prefix for cleaner changelog
-          CLEAN_TITLE=$(echo "$PR_TITLE" | sed -E 's/^(feat|fix|docs|style|refactor|perf|test|chore|build|ci|break|breaking)(\(.+?\))?:\s*//i')
+          echo "📝 Analyzing commits in this PR..."
 
-          # Extract first line of PR body as description (if exists)
-          # Using env variable to avoid shell interpretation issues
-          DESCRIPTION=$(echo "$PR_BODY" | head -n 1 | sed 's/^[#*-]\s*//' | tr -d '\r')
+          # Get all commit messages in the PR
+          COMMITS=$(git log --pretty=format:"%s" $BASE_REF..HEAD)
+          echo "Commits:"
+          echo "$COMMITS"
+          echo ""
 
-          # Create changeset content with better formatting
-          cat > .changeset/auto-pr-${PR_NUMBER}.md << EOF
----
-"eslint-config-kubit": ${VERSION_TYPE}
----
+          # Detect version bump type from commits
+          BUMP_TYPE="patch"
+          HAS_FEAT=false
+          HAS_BREAKING=false
 
-${CLEAN_TITLE}
-EOF
+          while IFS= read -r commit; do
+            if [[ "$commit" =~ ^(break|breaking|feat!) ]] || [[ "$commit" =~ BREAKING\ CHANGE ]]; then
+              HAS_BREAKING=true
+            elif [[ "$commit" =~ ^feat ]]; then
+              HAS_FEAT=true
+            fi
+          done <<< "$COMMITS"
 
-          # Add description if it's meaningful (not empty, not a template marker)
-          if [ -n "$DESCRIPTION" ] && [ "$DESCRIPTION" != "## Description" ] && [ "$DESCRIPTION" != "Description" ]; then
-            echo "" >> .changeset/auto-pr-${PR_NUMBER}.md
-            echo "$DESCRIPTION" >> .changeset/auto-pr-${PR_NUMBER}.md
+          if [ "$HAS_BREAKING" = true ]; then
+            BUMP_TYPE="major"
+          elif [ "$HAS_FEAT" = true ]; then
+            BUMP_TYPE="minor"
           fi
 
-          echo "✅ Auto-generated changeset for PR #${PR_NUMBER}"
-          cat .changeset/auto-pr-${PR_NUMBER}.md
+          echo "bump_type=$BUMP_TYPE" >> $GITHUB_OUTPUT
+          echo "📦 Version bump type: $BUMP_TYPE"
 
-      - name: Commit auto-generated changeset
-        if: steps.check-changesets.outputs.has_changeset == 'false'
+      - name: Create changeset
         run: |
-          git add .changeset/
-          git commit -m "chore: auto-generate changeset for PR #${{ github.event.pull_request.number }}" || echo "No changes to commit"
-          git push origin main
+          BUMP_TYPE="${{ steps.detect.outputs.bump_type }}"
+          PR_TITLE="${{ github.event.pull_request.title }}"
+          PR_NUMBER="${{ github.event.pull_request.number }}"
 
-      - name: Version packages
+          # Clean PR title for changeset summary
+          SUMMARY=$(echo "$PR_TITLE" | sed -E 's/^(feat|fix|docs|style|refactor|perf|test|chore|build|ci|break|breaking)(\([^)]+\))?!?:\s*//')
+
+          # Create changeset file
+          CHANGESET_ID=$(date +%s)
+          CHANGESET_FILE=".changeset/auto-$CHANGESET_ID.md"
+
+          echo "---" > $CHANGESET_FILE
+          echo "\"eslint-config-kubit\": $BUMP_TYPE" >> $CHANGESET_FILE
+          echo "---" >> $CHANGESET_FILE
+          echo "" >> $CHANGESET_FILE
+          echo "$SUMMARY" >> $CHANGESET_FILE
+          echo "" >> $CHANGESET_FILE
+          echo "PR: #$PR_NUMBER" >> $CHANGESET_FILE
+
+          echo "✅ Created changeset:"
+          cat $CHANGESET_FILE
+
+      - name: Update version and changelog
         run: |
           echo "📦 Updating version and changelog..."
           yarn changeset version
 
-          # Check if there are changes
-          if git diff --quiet; then
-            echo "No version changes needed"
-            echo "should_publish=false" >> $GITHUB_OUTPUT
-          else
-            echo "should_publish=true" >> $GITHUB_OUTPUT
-          fi
-        id: version
+          # Configure git
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
 
-      - name: Commit version changes
-        if: steps.version.outputs.should_publish == 'true'
-        run: |
+          # Commit version changes
           git add .
-          git commit -m "chore(release): version packages [skip ci]"
-          git push origin main
+          if git diff --staged --quiet; then
+            echo "No version changes to commit"
+          else
+            git commit -m "chore: version packages [skip ci]"
+            git push origin main
+          fi
 
       - name: Publish to NPM
-        if: steps.version.outputs.should_publish == 'true'
         run: |
           echo "🚀 Publishing to NPM..."
-          yarn changeset publish --access public
+          pnpm changeset publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
 
-      - name: Get published version
-        if: steps.version.outputs.should_publish == 'true'
-        id: get-version
-        run: |
-          VERSION=$(node -p "require('./package.json').version")
-          echo "version=$VERSION" >> $GITHUB_OUTPUT
-          echo "Published version: $VERSION"
-
       - name: Create GitHub Release
-        if: steps.version.outputs.should_publish == 'true'
-        uses: actions/github-script@v7
-        with:
-          script: |
-            const version = '${{ steps.get-version.outputs.version }}';
-            const fs = require('fs');
+        run: |
+          # Get version from package.json
+          VERSION=$(node -p "require('./package.json').version")
+          TAG="v$VERSION"
 
-            // Read CHANGELOG to get release notes
-            const changelog = fs.readFileSync('CHANGELOG.md', 'utf8');
-            const versionSection = changelog.split(`## [${version}]`)[1]?.split('##')[0] || 'See CHANGELOG.md for details';
+          # Extract changelog for this version
+          CHANGELOG=$(awk "/^## $VERSION/,/^## /" CHANGELOG.md | sed '1d;$d')
 
-            await github.rest.repos.createRelease({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              tag_name: `v${version}`,
-              name: `v${version}`,
-              body: `## 📦 Release v${version}\n\n${versionSection}\n\n### 📥 Installation\n\n\`\`\`bash\nnpm install eslint-config-kubit@${version}\n# or\npnpm add eslint-config-kubit@${version}\n# or\nyarn add eslint-config-kubit@${version}\n\`\`\`\n\n### 🔗 Links\n- [NPM Package](https://www.npmjs.com/package/eslint-config-kubit/v/${version})\n- [Changelog](https://github.com/${context.repo.owner}/${context.repo.repo}/blob/main/CHANGELOG.md)`,
-              draft: false,
-              prerelease: false
-            });
+          # Create release
+          gh release create "$TAG" \
+            --title "eslint-config-kubit v$VERSION" \
+            --notes "$CHANGELOG" \
+            --target main
+        env:
+          GITHUB_TOKEN: ${{ secrets.RELEASE_TOKEN || secrets.GITHUB_TOKEN }}
 
       - name: Comment on PR
-        if: steps.version.outputs.should_publish == 'true'
         uses: actions/github-script@v7
         with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
-            const version = '${{ steps.get-version.outputs.version }}';
-            const versionType = '${{ steps.detect-version.outputs.version_type }}';
+            const bumpType = '${{ steps.detect.outputs.bump_type }}';
+            const fs = require('fs');
+            const packageJson = JSON.parse(fs.readFileSync('package.json', 'utf8'));
+            const version = packageJson.version;
+            const npmLink = `https://www.npmjs.com/package/eslint-config-kubit/v/${version}`;
 
-            const message = `## 🚀 Published to NPM!
+            let comment = '## 🚀 Package Published\n\n';
+            comment += `**Version bump type:** \`${bumpType}\`\n\n`;
+            comment += '| Package | Version | NPM Link |\n';
+            comment += '|---------|---------|----------|\n';
+            comment += `| eslint-config-kubit | \`${version}\` | [View on NPM](${npmLink}) |\n`;
+            comment += '\n✅ Package has been successfully published to NPM!';
 
-            **eslint-config-kubit@${version}** has been successfully published.
-
-            ### 📦 Version Bump
-            - Type: **${versionType}**
-            - Version: **${version}**
-
-            ### 📥 Installation
-            \`\`\`bash
-            npm install eslint-config-kubit@${version}
-            # or
-            pnpm add eslint-config-kubit@${version}
-            # or
-            yarn add eslint-config-kubit@${version}
-            \`\`\`
-
-            ### 🔗 Links
-            - [NPM Package](https://www.npmjs.com/package/eslint-config-kubit/v/${version})
-            - [GitHub Release](https://github.com/${{ github.repository }}/releases/tag/v${version})
-            - [Changelog](https://github.com/${{ github.repository }}/blob/main/CHANGELOG.md)
-
-            🎉 **Ready to use!**`;
-
-            await github.rest.issues.createComment({
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
               owner: context.repo.owner,
               repo: context.repo.repo,
-              issue_number: context.issue.number,
-              body: message
+              body: comment
             });
