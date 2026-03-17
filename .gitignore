@@ -2,13 +2,9 @@
 node_modules/
 .editorconfig
 
-# Lock files (keep pnpm-lock.yaml)
-yarn.lock
+# Lock files (keep yarn.lock)
 package-lock.json
-
-# pnpm
-.pnpm-store/
-.pnpm-debug.log
+pnpm-lock.yaml
 
 # Logs
 *.log
@@ -21,7 +17,6 @@ pnpm-debug.log*
 
 # Environment variables
 .env
-.env.*
 
 # IDE files
 .vscode/

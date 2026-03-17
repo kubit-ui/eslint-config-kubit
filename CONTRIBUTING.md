@@ -29,46 +29,57 @@ This project follows the **fork-based contribution model** to:
    git fetch upstream
    ```
 
-4. **Create a Feature Branch**: Always create a new branch for your changes. Use proper branch naming conventions for automatic version detection.
+4. **Install Dependencies**: This project uses **Yarn Berry** as package manager.
+
+   ```sh
+   # Enable Corepack (ships with Node.js)
+   corepack enable
+
+   # Install dependencies
+   yarn install
+   ```
+
+5. **Create a Feature Branch**: Always create a new branch for your changes. Use proper branch naming conventions for automatic version detection.
 
    ```sh
    git checkout -b <branch-type>/<branch-name>
    ```
 
-5. **Make Changes**:
+6. **Make Changes**:
    - Make your changes to the eslint-config-kubit codebase
    - Follow the coding standards outlined in our style guide
    - Add or update tests for your changes
    - Update documentation if necessary
-   - Test your changes thoroughly using `pnpm test`
+   - Test your changes thoroughly
 
-6. **Commit Changes**: Use conventional commit messages for clarity.
+7. **Commit Changes**: Use conventional commit messages for clarity.
 
    ```sh
    git add .
    git commit -m "feat(rules): add new TypeScript specific eslint rules"
    ```
 
-7. **Keep Your Fork Updated**: Before pushing, sync with the upstream repository.
+8. **Keep Your Fork Updated**: Before pushing, sync with the upstream repository.
 
    ```sh
    git fetch upstream
    git rebase upstream/main
    ```
 
-8. **Push to Your Fork**: Push your changes to your forked repository (never to the original).
+9. **Push to Your Fork**: Push your changes to your forked repository (never to the original).
 
    ```sh
    git push origin <branch-name>
    ```
 
-9. **Open a Pull Request**:
-   - Go to the original [eslint-config-kubit repository](https://github.com/kubit-ui/eslint-config-kubit)
-   - Click "New pull request"
-   - Select "compare across forks"
-   - Choose your fork and branch as the source
-   - Fill out the PR template with details about your changes
-   - Submit the pull request for review
+10. **Open a Pull Request**:
+
+- Go to the original [eslint-config-kubit repository](https://github.com/kubit-ui/eslint-config-kubit)
+- Click "New pull request"
+- Select "compare across forks"
+- Choose your fork and branch as the source
+- Fill out the PR template with details about your changes
+- Submit the pull request for review
 
 ### Automatic Version Management with Changesets
 
@@ -100,7 +111,7 @@ The version bump is automatically detected from your branch name:
 If you want to manually create a changeset with a custom description:
 
 ```sh
-pnpm changeset
+yarn changeset
 ```
 
 This is optional - if you don't create one, it will be auto-generated from your PR title.
@@ -189,55 +200,60 @@ git commit -m "feat!: remove deprecated ESLint rules and update configuration st
 
 ### Requirements
 
-Before contributing, ensure you have the following installed:
+Before contributing, ensure you have:
 
-- **Node.js**: v18.x or higher (recommended: v22.x)
-- **pnpm**: v9.x or higher (recommended: v10.28.2)
+- **Node.js**: v20.x or higher
+- **Yarn**: v4.x or higher (via Corepack)
 - **Git**: Latest version
 
-You can check your versions with:
+Check your versions:
 
 ```sh
-node --version  # Should show v18.x.x or higher
-pnpm --version  # Should show 9.x.x or higher
+node --version  # Should show v20.x.x or higher
+yarn --version  # Should show 4.x.x
 ```
 
-#### Installing pnpm
+### Private Registry (optional)
 
-Using **npm** (if you have Node.js installed):
+This repo uses the public npm registry by default. If your organization requires a **private registry** (JFrog Artifactory, Nexus, GitHub Packages, etc.), you can override it globally via environment variables — no need to modify any files.
+
+1. Add to your `~/.zshrc` (or `~/.bashrc`):
 
 ```sh
-npm install -g pnpm@latest
+export YARN_NPM_REGISTRY_SERVER="https://your-org.example.com/your-npm-registry/"
+export YARN_NPM_ALWAYS_AUTH=true
+export YARN_ENABLE_STRICT_SSL=false
 ```
 
-Using **Corepack** (recommended, comes with Node.js 16.13+):
+2. Reload your shell:
 
 ```sh
-corepack enable
-corepack prepare pnpm@latest --activate
+source ~/.zshrc
 ```
 
-For other installation methods, visit [pnpm.io/installation](https://pnpm.io/installation)
+3. Verify:
+
+```sh
+yarn config get npmRegistryServer
+# Should show your private registry URL
+```
+
+This applies globally to all Yarn Berry projects. See `.env.example` for reference.
 
 ### Development Setup
 
-Before contributing, make sure you have the development environment set up:
-
 ```sh
+# Enable Corepack (ships with Node.js)
+corepack enable
+
 # Install dependencies
-pnpm install
-
-# Run tests (if available)
-pnpm test
-
-# Lint your code
-pnpm lint
+yarn install
 
 # Test the configuration in a sample project
 # Create a test project and link your local eslint-config-kubit
-pnpm link --global
+yarn link
 cd /path/to/test-project
-pnpm link --global eslint-config-kubit
+yarn link eslint-config-kubit
 ```
 
 ### Testing Your Changes
